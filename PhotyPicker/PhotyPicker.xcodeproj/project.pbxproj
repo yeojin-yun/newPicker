@@ -13,6 +13,8 @@
 		0C664C212884FEC50067F538 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C664C1F2884FEC50067F538 /* Main.storyboard */; };
 		0C664C232884FEC70067F538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C664C222884FEC70067F538 /* Assets.xcassets */; };
 		0C664C262884FEC70067F538 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C664C242884FEC70067F538 /* LaunchScreen.storyboard */; };
+		0C664C2E288501430067F538 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C2D288501430067F538 /* PickerViewController.swift */; };
+		0C664C30288501F80067F538 /* pickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C2F288501F80067F538 /* pickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		0C664C222884FEC70067F538 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C664C252884FEC70067F538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C664C272884FEC70067F538 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C664C2D288501430067F538 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		0C664C2F288501F80067F538 /* pickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				0C664C192884FEC50067F538 /* AppDelegate.swift */,
 				0C664C1B2884FEC50067F538 /* SceneDelegate.swift */,
 				0C664C1D2884FEC50067F538 /* ViewController.swift */,
+				0C664C2D288501430067F538 /* PickerViewController.swift */,
+				0C664C2F288501F80067F538 /* pickerView.swift */,
 				0C664C1F2884FEC50067F538 /* Main.storyboard */,
 				0C664C222884FEC70067F538 /* Assets.xcassets */,
 				0C664C242884FEC70067F538 /* LaunchScreen.storyboard */,
@@ -140,6 +146,8 @@
 			files = (
 				0C664C1E2884FEC50067F538 /* ViewController.swift in Sources */,
 				0C664C1A2884FEC50067F538 /* AppDelegate.swift in Sources */,
+				0C664C2E288501430067F538 /* PickerViewController.swift in Sources */,
+				0C664C30288501F80067F538 /* pickerView.swift in Sources */,
 				0C664C1C2884FEC50067F538 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
