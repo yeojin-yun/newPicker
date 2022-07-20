@@ -19,7 +19,7 @@ class AlbumsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .white
         setUI()
         fetchCollection()
     }
@@ -59,7 +59,7 @@ extension AlbumsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let nextVC = PickerViewController()
         nextVC.title = albums[indexPath.item].localizedTitle
-        nextVC.selectedPhasset = albums[indexPath.item]
+        nextVC.selectedCollection = albums[indexPath.item]
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

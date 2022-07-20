@@ -50,7 +50,7 @@ extension ViewController {
         guard let remoteConfig = remoteConfig else { return }
         remoteConfig.fetch { [weak self] status, error in
             if status == .success {
-                print("-----")
+                
                 remoteConfig.activate(completion: nil)
             } else {
                 print(error)
@@ -72,7 +72,6 @@ extension ViewController {
     }
     
     func isNoticeHidded(_ remoteConfig: RemoteConfig) -> Bool {
-        print(remoteConfig["isHidden"].boolValue)
         return remoteConfig["isHidden"].boolValue
     }
 }

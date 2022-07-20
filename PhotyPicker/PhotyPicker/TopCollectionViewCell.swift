@@ -6,35 +6,44 @@
 //
 
 import UIKit
+import Photos
 
 class TopCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "TopCollectionViewCell"
     let photo = UIImageView()
+    let minusButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
+        setDetail()
     }
     
-    func setImage(checkSelected: Bool, image: UIImage) {
-        if checkSelected {
-            photo.image = image
-        } else {
-            photo.image = nil
-        }
+    func setImage(asset: PHAsset) {
+        photo.image = asset.getImageFromPHAsset()
     }
     
+    func setDetail() {
+        minusButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        minusButton.setTitleColor(.darkGray, for: .normal)
+        minusButton.tintColor = .lightGray.withAlphaComponent(1.0)
+    }
     
     func setConstraints() {
-        contentView.addSubview(photo)
-        photo.translatesAutoresizingMaskIntoConstraints = false
+        [photo, minusButton].forEach {
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
-            photo.topAnchor.constraint(equalTo: contentView.topAnchor),
-            photo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            photo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            photo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            photo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            photo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            photo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            photo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            
+            minusButton.topAnchor.constraint(equalTo: photo.topAnchor, constant: -8),
+            minusButton.trailingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 8)
         ])
     }
     

@@ -9,9 +9,9 @@ import UIKit
 import Photos
 
 class PickerViewController: UIViewController {
-    var selectedPhasset: PHAssetCollection = PHAssetCollection()
+    var selectedCollection: PHAssetCollection = PHAssetCollection()
     var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
-    var selectedAsset: [UIImage] = []
+    var selectedAsset: [PHAsset] = []
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -23,7 +23,7 @@ class PickerViewController: UIViewController {
         view.backgroundColor = .white
         setUI()
         setPhotoAuthorization()
-        fetchImageFromCollection(collection: self.selectedPhasset)
+        fetchImageFromCollection(collection: self.selectedCollection)
     }
 
     func setPhotoAuthorization() {
@@ -32,16 +32,16 @@ class PickerViewController: UIViewController {
         }
     }
     
-    func checkSelectedBefore(image: UIImage) -> Bool {
-        print(selectedAsset)
-        if selectedAsset.contains(image) {
-            print("true")
-            return true
-        } else {
-            print("false")
-            return false
-        }
-    }
+//    func checkSelectedBefore(image: UIImage) -> Bool {
+//        print(selectedAsset)
+//        if selectedAsset.contains(image) {
+//            print("true")
+//            return true
+//        } else {
+//            print("false")
+//            return false
+//        }
+//    }
 }
 
 extension PickerViewController {
@@ -69,11 +69,34 @@ extension PickerViewController: UICollectionViewDataSource {
         if collectionView == topCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
             let image = selectedAsset[indexPath.item]
-            cell.setImage(checkSelected: checkSelected, image: image)
+            cell.setImage(asset: image)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             cell.photo.image = photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: cell.photo.frame.size)
+            cell.checkMarkButtonTapped = { [weak self] _ in
+                guard let self = self else { return }
+                if !self.selectedAsset.contains(self.photosFromCollection.object(at: indexPath.item)) {
+                    print("-------")
+                    self.selectedAsset.append(self.photosFromCollection.object(at: indexPath.item))
+                    print(self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)))
+                    guard let index = self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)) else { return }
+                    cell.index = index + 1
+                    print(true)
+                    DispatchQueue.main.async {
+                        self.topCollectionView.reloadData()
+                    }
+                } else {
+                    print("========")
+                    guard let index = self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)) else { return }
+                    self.selectedAsset.remove(at: index)
+                    DispatchQueue.main.async {
+                        self.topCollectionView.reloadData()
+                    }
+                    guard let index = self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)) else { return }
+                    cell.index = index + 1
+                }
+            }
             return cell
         }
     }
@@ -85,18 +108,15 @@ extension PickerViewController: UICollectionViewDelegate  {
         if collectionView == topCollectionView {
             
         } else {
-            selectedAsset.append(photosFromCollection.object(at: indexPath.item).getImageFromPHAsset())
-            checkSelected = checkSelectedBefore(image: photosFromCollection.object(at: indexPath.item).getImageFromPHAsset())
-            DispatchQueue.main.async {
-                self.topCollectionView.reloadData()
-            }
+            
+            
         }
     }
 }
 
 extension PickerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return CollectionViewCell.cellSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -109,7 +129,7 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
             let size = CGSize(width: width, height: width)
             return size
         } else {
-            let width = UIScreen.main.bounds.width / 3
+            let width = (CollectionViewCell.viewWidth - CollectionViewCell.cellSpacing * (CollectionViewCell.cellColumns - 1)) / CollectionViewCell.cellColumns
             let size = CGSize(width: width, height: width)
             return size
         }
@@ -126,6 +146,10 @@ extension PickerViewController {
         topCollectionView.delegate = self
         topCollectionView.dataSource = self
         topCollectionView.register(TopCollectionViewCell.self, forCellWithReuseIdentifier: TopCollectionViewCell.identifier)
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        topCollectionView.collectionViewLayout = flowLayout
+        
         
         bottomCollectionView.delegate = self
         bottomCollectionView.dataSource = self

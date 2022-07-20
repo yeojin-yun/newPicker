@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C634E0328881DF000A4BE2D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C634E0228881DF000A4BE2D /* Constant.swift */; };
+		0C634E052888276800A4BE2D /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C634E042888276800A4BE2D /* UIView.swift */; };
 		0C664C1A2884FEC50067F538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C192884FEC50067F538 /* AppDelegate.swift */; };
 		0C664C1C2884FEC50067F538 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C1B2884FEC50067F538 /* SceneDelegate.swift */; };
 		0C664C1E2884FEC50067F538 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C1D2884FEC50067F538 /* ViewController.swift */; };
@@ -64,6 +66,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C634E0228881DF000A4BE2D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		0C634E042888276800A4BE2D /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		0C664C162884FEC50067F538 /* PhotyPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotyPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C664C192884FEC50067F538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C664C1B2884FEC50067F538 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +173,8 @@
 				0C664C8728864E580067F538 /* PHAssetCollection.swift */,
 				0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */,
 				0CBF5CE72887DB320092AC40 /* PHAsset.swift */,
+				0C634E0228881DF000A4BE2D /* Constant.swift */,
+				0C634E042888276800A4BE2D /* UIView.swift */,
 			);
 			path = PhotyPicker;
 			sourceTree = "<group>";
@@ -290,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C634E052888276800A4BE2D /* UIView.swift in Sources */,
 				0C664C8428854A320067F538 /* TopCollectionViewCell.swift in Sources */,
 				0C664C8628854A3B0067F538 /* BottomCollectionViewCell.swift in Sources */,
 				0C664C1E2884FEC50067F538 /* ViewController.swift in Sources */,
@@ -301,6 +308,7 @@
 				0C664C8828864E580067F538 /* PHAssetCollection.swift in Sources */,
 				0C664C1C2884FEC50067F538 /* SceneDelegate.swift in Sources */,
 				0CBF5CE82887DB320092AC40 /* PHAsset.swift in Sources */,
+				0C634E0328881DF000A4BE2D /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
