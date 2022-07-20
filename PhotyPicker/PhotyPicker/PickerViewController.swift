@@ -8,18 +8,22 @@
 import UIKit
 import Photos
 
-class PickerViewController: UIViewController, UICollectionViewDelegate {
-    private var albums: [PHAssetCollection] = []
+class PickerViewController: UIViewController {
+    var selectedPhasset: PHAssetCollection = PHAssetCollection()
+    var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
+    var selectedAsset: [UIImage] = []
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    var checkSelected: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUI()
         setPhotoAuthorization()
-        fetchAlbum()
+        fetchImageFromCollection(collection: self.selectedPhasset)
     }
 
     func setPhotoAuthorization() {
@@ -27,25 +31,26 @@ class PickerViewController: UIViewController, UICollectionViewDelegate {
             print("권한 받음")
         }
     }
+    
+    func checkSelectedBefore(image: UIImage) -> Bool {
+        print(selectedAsset)
+        if selectedAsset.contains(image) {
+            print("true")
+            return true
+        } else {
+            print("false")
+            return false
+        }
+    }
 }
 
-
-
 extension PickerViewController {
-    func fetchAlbum() {
-        let result = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
-        result.enumerateObjects { collection, _, _ in
-            if collection.hasAssets() {
-                print(collection.localizedTitle)
-                print(collection.hasAssets())
-            }
-        }
-        
-        let result2 = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil)
-        result2.enumerateObjects { collection, _, _ in
-            if collection.hasAssets() {
-                print("2: \(collection)")
-            }
+    func fetchImageFromCollection(collection: PHAssetCollection) {
+        let fetchOption = PHFetchOptions()
+        fetchOption.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        self.photosFromCollection = PHAsset.fetchAssets(in: collection, options: fetchOption)
+        DispatchQueue.main.async {
+            self.bottomCollectionView.reloadData()
         }
     }
 }
@@ -54,19 +59,37 @@ extension PickerViewController {
 extension PickerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
-            return 5
+            return selectedAsset.count
         } else {
-            return 20
+            return photosFromCollection.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == topCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
+            let image = selectedAsset[indexPath.item]
+            cell.setImage(checkSelected: checkSelected, image: image)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
+            cell.photo.image = photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: cell.photo.frame.size)
             return cell
+        }
+    }
+}
+
+
+extension PickerViewController: UICollectionViewDelegate  {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == topCollectionView {
+            
+        } else {
+            selectedAsset.append(photosFromCollection.object(at: indexPath.item).getImageFromPHAsset())
+            checkSelected = checkSelectedBefore(image: photosFromCollection.object(at: indexPath.item).getImageFromPHAsset())
+            DispatchQueue.main.async {
+                self.topCollectionView.reloadData()
+            }
         }
     }
 }
@@ -92,7 +115,6 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-
 
 extension PickerViewController {
     func setUI() {

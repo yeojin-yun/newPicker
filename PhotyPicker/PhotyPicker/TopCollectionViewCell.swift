@@ -15,11 +15,14 @@ class TopCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        setImage()
     }
-    func setImage() {
-        photo.image = UIImage(named: "PhotoSearch_icon")
-        photo.layer.borderWidth = 1
+    
+    func setImage(checkSelected: Bool, image: UIImage) {
+        if checkSelected {
+            photo.image = image
+        } else {
+            photo.image = nil
+        }
     }
     
     

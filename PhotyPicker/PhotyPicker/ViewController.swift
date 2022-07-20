@@ -29,11 +29,11 @@ class ViewController: UIViewController {
     }
 
     @objc func buttonTapped(_ sender: UIButton) {
-        let nextVC = PickerViewController()
-//        let nav = UINavigationController(rootViewController: nextVC)
-        self.navigationController?.pushViewController(nextVC, animated: true)
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true)
+        let nextVC = AlbumsViewController()
+        let nav = UINavigationController(rootViewController: nextVC)
+//        self.navigationController?.pushViewController(nextVC, animated: true)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
     }
 }
 
