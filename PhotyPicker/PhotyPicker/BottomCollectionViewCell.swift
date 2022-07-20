@@ -14,7 +14,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        photo.backgroundColor = .yellow
+        photo.backgroundColor = .red
     }
     
     

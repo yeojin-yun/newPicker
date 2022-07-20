@@ -15,7 +15,11 @@ class TopCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        photo.backgroundColor = .blue
+        setImage()
+    }
+    func setImage() {
+        photo.image = UIImage(named: "PhotoSearch_icon")
+        photo.layer.borderWidth = 1
     }
     
     

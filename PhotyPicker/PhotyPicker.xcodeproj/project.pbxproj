@@ -57,6 +57,9 @@
 		0C664C8228852C380067F538 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 0C664C8128852C380067F538 /* FirebaseStorageCombine-Community */; };
 		0C664C8428854A320067F538 /* TopCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C8328854A320067F538 /* TopCollectionViewCell.swift */; };
 		0C664C8628854A3B0067F538 /* BottomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C8528854A3B0067F538 /* BottomCollectionViewCell.swift */; };
+		0C664C8828864E580067F538 /* PHAssetCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C8728864E580067F538 /* PHAssetCollection.swift */; };
+		0C664C8A288669300067F538 /* AlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C89288669300067F538 /* AlbumCollectionViewController.swift */; };
+		0CB6E7DB288678E60011BCA8 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +77,9 @@
 		0C664C4A288521E70067F538 /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		0C664C8328854A320067F538 /* TopCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C664C8528854A3B0067F538 /* BottomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCollectionViewCell.swift; sourceTree = "<group>"; };
+		0C664C8728864E580067F538 /* PHAssetCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAssetCollection.swift; sourceTree = "<group>"; };
+		0C664C89288669300067F538 /* AlbumCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewController.swift; sourceTree = "<group>"; };
+		0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +163,9 @@
 				0C664C222884FEC70067F538 /* Assets.xcassets */,
 				0C664C242884FEC70067F538 /* LaunchScreen.storyboard */,
 				0C664C272884FEC70067F538 /* Info.plist */,
+				0C664C8728864E580067F538 /* PHAssetCollection.swift */,
+				0C664C89288669300067F538 /* AlbumCollectionViewController.swift */,
+				0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */,
 			);
 			path = PhotyPicker;
 			sourceTree = "<group>";
@@ -281,9 +290,12 @@
 				0C664C8428854A320067F538 /* TopCollectionViewCell.swift in Sources */,
 				0C664C8628854A3B0067F538 /* BottomCollectionViewCell.swift in Sources */,
 				0C664C1E2884FEC50067F538 /* ViewController.swift in Sources */,
+				0C664C8A288669300067F538 /* AlbumCollectionViewController.swift in Sources */,
+				0CB6E7DB288678E60011BCA8 /* AlbumCollectionViewCell.swift in Sources */,
 				0C664C1A2884FEC50067F538 /* AppDelegate.swift in Sources */,
 				0C664C2E288501430067F538 /* PickerViewController.swift in Sources */,
 				0C664C30288501F80067F538 /* pickerView.swift in Sources */,
+				0C664C8828864E580067F538 /* PHAssetCollection.swift in Sources */,
 				0C664C1C2884FEC50067F538 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,11 +441,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y89LJ6BC92;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PhotyPicker/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 사용 권한 팝업";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -446,6 +460,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yyjyyj333.newpicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -457,11 +472,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y89LJ6BC92;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PhotyPicker/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 사용 권한 팝업";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -474,6 +491,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yyjyyj333.newpicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
