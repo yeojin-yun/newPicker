@@ -56,15 +56,16 @@ extension PickerViewController: UICollectionViewDataSource {
             guard let topCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
             let image = viewModel.selectedAsset[indexPath.item]
             topCell.setImage(asset: image)
-//            cell.deleteButtonTapped = { [weak self] _ in
-//                guard let `self` = self else { return }
-//                guard let index = self.viewModel.selectedAsset.firstIndex(of: image) else { return }
-//                self.viewModel.selectedAsset.remove(at: index)
-//                DispatchQueue.main.async {
-//                    self.topCollectionView.reloadData()
+            topCell.deleteButtonTapped = { [weak self] _ in
+                guard let `self` = self else { return }
+                guard let index = self.viewModel.selectedAsset.firstIndex(of: image) else { return }
+                self.viewModel.selectedAsset.remove(at: index)
+
+                DispatchQueue.main.async {
+                    self.topCollectionView.reloadData()
 //                    self.bottomCollectionView.reloadData()
-//                }
-//            }
+                }
+            }
             return topCell
         } else {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
