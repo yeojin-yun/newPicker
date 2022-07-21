@@ -6,16 +6,26 @@
 //
 
 import UIKit
+import Photos
 
 class BottomCollectionViewCell: UICollectionViewCell {
     static let identifier = "BottomCollectionViewCell"
     let photo = UIImageView()
     let checkMark = UIButton()
+    let viewModel = ViewModel()
     
-    var index: Int = 1 {
+    var indexPath: Int = 0 {
         didSet {
-            checkMark.setTitle("\(index)", for: .normal)
-            setCheckMark(index: index)
+            if viewModel.checkHasAsset(indexPath: indexPath) {
+                // 숫자표시
+                checkMark.setTitle("\(indexPath)", for: .normal)
+                checkMark.layer.borderColor = UIColor.darkGray.cgColor
+                checkMark.layer.borderWidth = 2
+                checkMark.backgroundColor = .lightGray
+                checkMark.tintColor = .darkGray
+            } else {
+                // 숫자표시 없애기
+            }
         }
     }
     
@@ -25,7 +35,6 @@ class BottomCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setConstraints()
         setDetail()
-        photo.backgroundColor = .red
     }
     
     func setDetail() {
@@ -36,14 +45,19 @@ class BottomCollectionViewCell: UICollectionViewCell {
     }
     
     func resetCheckMark() {
-        checkMark.setTitle("", for: .normal)
+        checkMark.setImage(nil, for: .normal)
     }
     
-    func setCheckMark(index: Int) {
-        checkMark.setTitle("\(index)", for: .normal)
+    func setCheckMark() {
+        checkMark.setImage(UIImage(systemName: "checkmark"), for: .normal)
         checkMark.layer.borderColor = UIColor.darkGray.cgColor
         checkMark.layer.borderWidth = 2
         checkMark.backgroundColor = .lightGray
+        checkMark.tintColor = .darkGray
+    }
+    
+    func check(asset: PHAsset) {
+        
     }
     
     func setConstraints() {
@@ -66,13 +80,13 @@ class BottomCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func checkMarkTapped(_ sender: UIButton) {
-        checkMark.setTitle("\(index)", for: .normal)
         checkMarkButtonTapped(self)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.photo.image = nil
+        self.checkMark.setImage(nil, for: .normal)
     }
     
     override func layoutSubviews() {

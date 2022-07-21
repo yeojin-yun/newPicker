@@ -63,6 +63,7 @@
 		0CB6E7DB288678E60011BCA8 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */; };
 		0CBF5CE62887C8760092AC40 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */; };
 		0CBF5CE82887DB320092AC40 /* PHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CE72887DB320092AC40 /* PHAsset.swift */; };
+		0CBF5CEC288925BC0092AC40 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CEB288925BC0092AC40 /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
 		0CBF5CE72887DB320092AC40 /* PHAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAsset.swift; sourceTree = "<group>"; };
+		0CBF5CEB288925BC0092AC40 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 				0CBF5CE72887DB320092AC40 /* PHAsset.swift */,
 				0C634E0228881DF000A4BE2D /* Constant.swift */,
 				0C634E042888276800A4BE2D /* UIView.swift */,
+				0CBF5CEB288925BC0092AC40 /* ViewModel.swift */,
 			);
 			path = PhotyPicker;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				0C664C1E2884FEC50067F538 /* ViewController.swift in Sources */,
 				0CB6E7DB288678E60011BCA8 /* AlbumCollectionViewCell.swift in Sources */,
 				0CBF5CE62887C8760092AC40 /* AlbumsViewController.swift in Sources */,
+				0CBF5CEC288925BC0092AC40 /* ViewModel.swift in Sources */,
 				0C664C1A2884FEC50067F538 /* AppDelegate.swift in Sources */,
 				0C664C2E288501430067F538 /* PickerViewController.swift in Sources */,
 				0C664C30288501F80067F538 /* pickerView.swift in Sources */,

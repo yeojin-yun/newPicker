@@ -9,9 +9,15 @@ import UIKit
 import Photos
 
 class PickerViewController: UIViewController {
-    var selectedCollection: PHAssetCollection = PHAssetCollection()
-    var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
-    var selectedAsset: [PHAsset] = []
+    var selectedCollection: PHAssetCollection = PHAssetCollection() {
+        didSet {
+            viewModel.selectedCollection = selectedCollection
+        }
+    }
+//    var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
+//    var selectedAsset: [PHAsset] = []
+    
+    let viewModel = ViewModel()
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -23,7 +29,9 @@ class PickerViewController: UIViewController {
         view.backgroundColor = .white
         setUI()
         setPhotoAuthorization()
-        fetchImageFromCollection(collection: self.selectedCollection)
+        DispatchQueue.main.async {
+            self.bottomCollectionView.reloadData()
+        }
     }
 
     func setPhotoAuthorization() {
@@ -31,73 +39,61 @@ class PickerViewController: UIViewController {
             print("권한 받음")
         }
     }
-    
-//    func checkSelectedBefore(image: UIImage) -> Bool {
-//        print(selectedAsset)
-//        if selectedAsset.contains(image) {
-//            print("true")
-//            return true
-//        } else {
-//            print("false")
-//            return false
-//        }
-//    }
 }
-
-extension PickerViewController {
-    func fetchImageFromCollection(collection: PHAssetCollection) {
-        let fetchOption = PHFetchOptions()
-        fetchOption.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-        self.photosFromCollection = PHAsset.fetchAssets(in: collection, options: fetchOption)
-        DispatchQueue.main.async {
-            self.bottomCollectionView.reloadData()
-        }
-    }
-}
-
 
 extension PickerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
-            return selectedAsset.count
+            return viewModel.selectedAsset.count
         } else {
-            return photosFromCollection.count
+            print(viewModel.photosFromCollection.count)
+            return viewModel.photosFromCollection.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == topCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
-            let image = selectedAsset[indexPath.item]
-            cell.setImage(asset: image)
-            return cell
+            guard let topCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
+            let image = viewModel.selectedAsset[indexPath.item]
+            topCell.setImage(asset: image)
+//            cell.deleteButtonTapped = { [weak self] _ in
+//                guard let `self` = self else { return }
+//                guard let index = self.viewModel.selectedAsset.firstIndex(of: image) else { return }
+//                self.viewModel.selectedAsset.remove(at: index)
+//                DispatchQueue.main.async {
+//                    self.topCollectionView.reloadData()
+//                    self.bottomCollectionView.reloadData()
+//                }
+//            }
+            return topCell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
-            cell.photo.image = photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: cell.photo.frame.size)
-            cell.checkMarkButtonTapped = { [weak self] _ in
+            guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
+            bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
+            bottomCell.checkMarkButtonTapped = { [weak self] _ in
                 guard let self = self else { return }
-                if !self.selectedAsset.contains(self.photosFromCollection.object(at: indexPath.item)) {
-                    print("-------")
-                    self.selectedAsset.append(self.photosFromCollection.object(at: indexPath.item))
-                    print(self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)))
-                    guard let index = self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)) else { return }
-                    cell.index = index + 1
-                    print(true)
+                //cell.indexPath = indexPath.item + 1
+
+                if self.viewModel.checkHasAsset(indexPath: indexPath.item) {
+                    print("-------\(indexPath.item)")
+                    self.viewModel.selectedAsset.append(self.viewModel.photosFromCollection.object(at: indexPath.item))
+                    print(self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)))
+                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
+                    bottomCell.setCheckMark()
                     DispatchQueue.main.async {
                         self.topCollectionView.reloadData()
                     }
                 } else {
-                    print("========")
-                    guard let index = self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)) else { return }
-                    self.selectedAsset.remove(at: index)
+                    print("========\(indexPath.item)")
+                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
+                    print("⭐️\(index)")
+                    bottomCell.resetCheckMark()
+                    self.viewModel.selectedAsset.remove(at: index)
                     DispatchQueue.main.async {
                         self.topCollectionView.reloadData()
                     }
-                    guard let index = self.selectedAsset.firstIndex(of: self.photosFromCollection.object(at: indexPath.item)) else { return }
-                    cell.index = index + 1
                 }
             }
-            return cell
+            return bottomCell
         }
     }
 }

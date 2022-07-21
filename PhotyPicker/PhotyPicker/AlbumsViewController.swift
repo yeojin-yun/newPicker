@@ -9,11 +9,12 @@ import UIKit
 import Photos
 
 class AlbumsViewController: UIViewController {
-    var albums: [PHAssetCollection] = [] {
-        didSet {
-            print(albums)
-        }
-    }
+//    var albums: [PHAssetCollection] = [] {
+//        didSet {
+//            print(albums)
+//        }
+//    }
+    let viewModel = ViewModel()
     
     let albumCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -21,21 +22,7 @@ class AlbumsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUI()
-        fetchCollection()
-    }
-    
-    
-}
-
-extension AlbumsViewController {
-    func fetchCollection() {
-        self.albums.removeAll()
-        let fetchCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: .none)
-        fetchCollection.enumerateObjects { collection, _, _ in
-            if collection.hasAssets() {
-                self.albums.append(collection)
-            }
-        }
+        viewModel.fetchCollection()
         DispatchQueue.main.async {
             self.albumCollectionView.reloadData()
         }
@@ -45,12 +32,12 @@ extension AlbumsViewController {
 
 extension AlbumsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return albums.count
+        return viewModel.albums.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCollectionViewCell.identifier, for: indexPath) as? AlbumCollectionViewCell else { return UICollectionViewCell() }
-        cell.setAlbum(collection: albums[indexPath.item])
+        cell.setAlbum(collection: viewModel.albums[indexPath.item])
         return cell
     }
 }
@@ -58,8 +45,8 @@ extension AlbumsViewController: UICollectionViewDataSource {
 extension AlbumsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let nextVC = PickerViewController()
-        nextVC.title = albums[indexPath.item].localizedTitle
-        nextVC.selectedCollection = albums[indexPath.item]
+        nextVC.title = viewModel.albums[indexPath.item].localizedTitle
+        nextVC.selectedCollection = viewModel.albums[indexPath.item]
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

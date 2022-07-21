@@ -12,7 +12,9 @@ class TopCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "TopCollectionViewCell"
     let photo = UIImageView()
-    let minusButton = UIButton()
+    let deleteButton = UIButton()
+    
+    var deleteButtonTapped: (TopCollectionViewCell) -> Void = { (sender) in }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,18 +22,23 @@ class TopCollectionViewCell: UICollectionViewCell {
         setDetail()
     }
     
+    @objc func deleteBtnTapped(_ sender: UIButton) {
+        deleteButtonTapped(self)
+    }
+    
     func setImage(asset: PHAsset) {
         photo.image = asset.getImageFromPHAsset()
     }
     
     func setDetail() {
-        minusButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        minusButton.setTitleColor(.darkGray, for: .normal)
-        minusButton.tintColor = .lightGray.withAlphaComponent(1.0)
+        deleteButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        deleteButton.setTitleColor(.darkGray, for: .normal)
+        deleteButton.tintColor = .lightGray.withAlphaComponent(1.0)
+        deleteButton.addTarget(self, action: #selector(deleteBtnTapped(_:)), for: .touchUpInside)
     }
     
     func setConstraints() {
-        [photo, minusButton].forEach {
+        [photo, deleteButton].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -42,19 +49,20 @@ class TopCollectionViewCell: UICollectionViewCell {
             photo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             photo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
-            minusButton.topAnchor.constraint(equalTo: photo.topAnchor, constant: -8),
-            minusButton.trailingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 8)
+            deleteButton.topAnchor.constraint(equalTo: photo.topAnchor, constant: -8),
+            deleteButton.trailingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 8)
         ])
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.photo.image = nil
+//        self.deleteButton.setImage(nil, for: .normal)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        photo.contentMode = .scaleAspectFill
+        self.photo.contentMode = .scaleAspectFill
         self.photo.clipsToBounds = true
     }
     
