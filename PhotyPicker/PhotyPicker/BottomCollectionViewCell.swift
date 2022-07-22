@@ -16,16 +16,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
     
     var indexPath: Int = 0 {
         didSet {
-            if viewModel.checkHasAsset(indexPath: indexPath) {
-                // 숫자표시
-                checkMark.setTitle("\(indexPath)", for: .normal)
-                checkMark.layer.borderColor = UIColor.darkGray.cgColor
-                checkMark.layer.borderWidth = 2
-                checkMark.backgroundColor = .lightGray
-                checkMark.tintColor = .darkGray
-            } else {
-                // 숫자표시 없애기
-            }
+            setCheckMark(index: indexPath)
         }
     }
     
@@ -48,8 +39,8 @@ class BottomCollectionViewCell: UICollectionViewCell {
         checkMark.setImage(nil, for: .normal)
     }
     
-    func setCheckMark() {
-        checkMark.setImage(UIImage(systemName: "checkmark"), for: .normal)
+    func setCheckMark(index: Int) {
+        checkMark.setTitle("\(index)", for: .normal)
         checkMark.layer.borderColor = UIColor.darkGray.cgColor
         checkMark.layer.borderWidth = 2
         checkMark.backgroundColor = .lightGray

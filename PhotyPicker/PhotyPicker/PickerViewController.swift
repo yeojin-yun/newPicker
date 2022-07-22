@@ -63,13 +63,25 @@ extension PickerViewController: UICollectionViewDataSource {
 
                 DispatchQueue.main.async {
                     self.topCollectionView.reloadData()
-//                    self.bottomCollectionView.reloadData()
                 }
             }
             return topCell
         } else {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
+            guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return BottomCollectionViewCell() }
+            if self.viewModel.checkHasAsset(indexPath: indexPath.item) {
+                // TopCollectionView에 해당 사진이 없는데
+                // 체크 버튼을 눌렀으면
+                
+                bottomCell.indexPath = index + 1
+                
+            } else {
+                // TopCollectionView에 해당 사진이 있는데
+                // 체크 버튼을 눌렀으면
+            }
+            
+            
             bottomCell.checkMarkButtonTapped = { [weak self] _ in
                 guard let self = self else { return }
                 //cell.indexPath = indexPath.item + 1
@@ -78,7 +90,7 @@ extension PickerViewController: UICollectionViewDataSource {
                     print("-------\(indexPath.item)")
                     self.viewModel.selectedAsset.append(self.viewModel.photosFromCollection.object(at: indexPath.item))
                     print(self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)))
-                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
+                    
                     bottomCell.setCheckMark()
                     DispatchQueue.main.async {
                         self.topCollectionView.reloadData()
@@ -95,7 +107,7 @@ extension PickerViewController: UICollectionViewDataSource {
                 }
             }
             return bottomCell
-        }
+        } //여기가 끝
     }
 }
 
