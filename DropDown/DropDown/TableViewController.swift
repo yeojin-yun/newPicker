@@ -14,7 +14,7 @@ class TableViewController: UIViewController {
     
     var sections: [SectionData] = [
         SectionData(open: true, data: [CellData(title: "Instagram", featureImage: UIImage(named: "2")!)]),
-        SectionData(open: true, data: [CellData(title: "Section", featureImage: UIImage(named: "1")!)]),
+        SectionData(open: false, data: [CellData(title: "Section", featureImage: UIImage(named: "1")!)]),
         SectionData(open: true, data: [CellData(title: "Twitter", featureImage: UIImage(named: "3")!), CellData(title: "Youtube", featureImage: UIImage(named: "1")!)])
     ]
 
@@ -50,6 +50,9 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if !sections[section].open {
+            return 0
+        }
         return sections[section].data.count
     }
     
@@ -61,6 +64,7 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         let button = UIButton()
         button.setTitle("close", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(openSection), for: .touchUpInside)
         return button
     }
     
@@ -70,8 +74,15 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension TableViewController {
+    @objc func openSection(button: UIButton) {
+        print("button tag", button.tag)
+    }
+}
+
+extension TableViewController {
     func setUI() {
         setConstraints()
+        view.backgroundColor = UIColor.init(red: 228/255, green: 230/255, blue: 234/255, alpha: 1)
     }
     
     func setConstraints() {
