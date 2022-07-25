@@ -36,7 +36,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
     }
     
     func resetCheckMark() {
-        checkMark.setImage(nil, for: .normal)
+        checkMark.setTitle("", for: .normal)
     }
     
     func setCheckMark(index: Int) {
@@ -77,7 +77,10 @@ class BottomCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.photo.image = nil
-        self.checkMark.setImage(nil, for: .normal)
+        self.checkMark.setTitle("", for: .normal)
+        photo.contentMode = .scaleAspectFill
+        self.photo.clipsToBounds = true
+        checkMark.roundedCorners()
     }
     
     override func layoutSubviews() {

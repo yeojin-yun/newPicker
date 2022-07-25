@@ -10,6 +10,13 @@ import Photos
 import PhotosUI
 
 class ViewModel {
+    var identifierArray: [String] = [String]()
+    var indexPathArray: [IndexPath] = [IndexPath]() {
+        didSet {
+            print("새로운 값: \(indexPathArray)")
+        }
+    }
+    
     // 전체 앨범
     var albums: [PHAssetCollection] = [] {
         didSet {
@@ -35,12 +42,19 @@ class ViewModel {
     
     var selectedAsset: [PHAsset] = [] {
         didSet {
-            //print("asset: \(selectedAsset)")
+            // 배열이 바뀔 때를 체크해야 함 : 배열의 index 값을 전달해야 함. (튜플?)
+            
         }
     }
     
     func checkHasAsset(indexPath: Int) -> Bool {
         return !selectedAsset.contains(photosFromCollection.object(at: indexPath)) ? true : false
+    }
+    
+    func getIndexFromSelectedAssets(asset: PHAsset) -> Int {
+        identifierArray.append(asset.localIdentifier)
+        guard let indexOfPHAsset = identifierArray.firstIndex(of: asset.localIdentifier) else { return 0 }
+        return indexOfPHAsset
     }
     
     // 사진첩에 있는 모든 앨범 불러오기

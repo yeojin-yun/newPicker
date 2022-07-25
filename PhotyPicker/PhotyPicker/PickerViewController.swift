@@ -36,7 +36,7 @@ class PickerViewController: UIViewController {
 
     func setPhotoAuthorization() {
         if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized {
-            print("권한 받음")
+            //print("권한 받음")
         }
     }
 }
@@ -46,7 +46,7 @@ extension PickerViewController: UICollectionViewDataSource {
         if collectionView == topCollectionView {
             return viewModel.selectedAsset.count
         } else {
-            print(viewModel.photosFromCollection.count)
+            //print(viewModel.photosFromCollection.count)
             return viewModel.photosFromCollection.count
         }
     }
@@ -69,18 +69,6 @@ extension PickerViewController: UICollectionViewDataSource {
         } else {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
-            guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return BottomCollectionViewCell() }
-            if self.viewModel.checkHasAsset(indexPath: indexPath.item) {
-                // TopCollectionView에 해당 사진이 없는데
-                // 체크 버튼을 눌렀으면
-                
-                bottomCell.indexPath = index + 1
-                
-            } else {
-                // TopCollectionView에 해당 사진이 있는데
-                // 체크 버튼을 눌렀으면
-            }
-            
             
             bottomCell.checkMarkButtonTapped = { [weak self] _ in
                 guard let self = self else { return }
@@ -89,25 +77,41 @@ extension PickerViewController: UICollectionViewDataSource {
                 if self.viewModel.checkHasAsset(indexPath: indexPath.item) {
                     print("-------\(indexPath.item)")
                     self.viewModel.selectedAsset.append(self.viewModel.photosFromCollection.object(at: indexPath.item))
-                    print(self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)))
+                    self.viewModel.indexPathArray.append(indexPath)
+//                    print(self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)))
+//                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
                     
-                    bottomCell.setCheckMark()
+                    for index in self.viewModel.indexPathArray {
+                        print("✏️\(index)")
+                        print("✏️✏️",self.viewModel.indexPathArray.firstIndex(of: index))
+                        if indexPath == index {
+                            print("✏️✏️✏️",)
+                        }
+                        // 배열에서 해당 요소(=indexPath)가 몇 번째 요소인지
+                    }
+                    
                     DispatchQueue.main.async {
                         self.topCollectionView.reloadData()
                     }
+                    //self.bottomCollectionView.reloadSections(IndexSet.init(integer: 0))
                 } else {
                     print("========\(indexPath.item)")
+                    
                     guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
                     print("⭐️\(index)")
                     bottomCell.resetCheckMark()
                     self.viewModel.selectedAsset.remove(at: index)
+                    self.viewModel.indexPathArray.remove(at: index)
                     DispatchQueue.main.async {
                         self.topCollectionView.reloadData()
                     }
                 }
+                // 항상 불리기 때문에 여기서 선택되지 않은 셀들에 대해서 숫자 표시할 것
+                // bottomCell.setCheckMark(index: <#T##Int#>)
+
             }
             return bottomCell
-        } //여기가 끝
+        }
     }
 }
 
@@ -117,7 +121,16 @@ extension PickerViewController: UICollectionViewDelegate  {
         if collectionView == topCollectionView {
             
         } else {
+            print("➡️",indexPath, indexPath.item)
             
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if collectionView == topCollectionView {
+            
+        } else {
+            print("➡️➡️",indexPath, indexPath.item)
             
         }
     }
