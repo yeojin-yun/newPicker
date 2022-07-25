@@ -41,7 +41,7 @@ class PickerViewController: UIViewController {
     }
 }
 
-extension PickerViewController: UICollectionViewDataSource {
+extension PickerViewController: UICollectionViewDataSource, CellDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
             return viewModel.selectedAsset.count
@@ -56,62 +56,21 @@ extension PickerViewController: UICollectionViewDataSource {
             guard let topCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
             let image = viewModel.selectedAsset[indexPath.item]
             topCell.setImage(asset: image)
-            topCell.deleteButtonTapped = { [weak self] _ in
-                guard let `self` = self else { return }
-                guard let index = self.viewModel.selectedAsset.firstIndex(of: image) else { return }
-                self.viewModel.selectedAsset.remove(at: index)
-
-                DispatchQueue.main.async {
-                    self.topCollectionView.reloadData()
-                }
-            }
+            
             return topCell
         } else {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
             
-            bottomCell.checkMarkButtonTapped = { [weak self] _ in
-                guard let self = self else { return }
-                //cell.indexPath = indexPath.item + 1
-
-                if self.viewModel.checkHasAsset(indexPath: indexPath.item) {
-                    print("-------\(indexPath.item)")
-                    self.viewModel.selectedAsset.append(self.viewModel.photosFromCollection.object(at: indexPath.item))
-                    self.viewModel.indexPathArray.append(indexPath)
-//                    print(self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)))
-                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
-
-                    DispatchQueue.main.async {
-                        self.topCollectionView.reloadData()
-                    }
-                    //self.bottomCollectionView.reloadSections(IndexSet.init(integer: 0))
-                } else {
-                    print("========\(indexPath.item)")
-                    
-                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
-                    print("⭐️\(index)")
-                    bottomCell.resetCheckMark()
-                    self.viewModel.selectedAsset.remove(at: index)
-                    self.viewModel.indexPathArray.remove(at: index)
-                    DispatchQueue.main.async {
-                        self.topCollectionView.reloadData()
-                    }
-                }
-                // 항상 불리기 때문에 여기서 선택되지 않은 셀들에 대해서 숫자 표시할 것
-                // bottomCell.setCheckMark(index: <#T##Int#>)
-                for myIndex in self.viewModel.indexPathArray {
-//                    print("✏️\(index)") // 선택된 indexPath 배열의 개별 요소
-                    print("✏️✏️",self.viewModel.indexPathArray.firstIndex(of: myIndex))
-                    guard let result = self.viewModel.indexPathArray.firstIndex(of: myIndex) else { return }// 현재 눌린 셀이 인덱스 모음 배열에서 몇 번째? 이걸 셀의 체크 박스 버튼에 나타내야 함
-                    bottomCell.indexPath = result + 1
-                    
-                    // 배열에서 해당 요소(=indexPath)가 몇 번째 요소인지
-                }
-                DispatchQueue.main.async {
-                    self.bottomCollectionView.reloadData()
-                }
-            }
             return bottomCell
+        }
+    }
+    
+    func didPressCheckButton(for index: Int, like: Bool) {
+        if like {
+            viewModel.selectedAsset[index] = 1
+        } else {
+            viewModel.selectedAsset[index] = 0
         }
     }
 }

@@ -8,11 +8,26 @@
 import UIKit
 import Photos
 
+protocol CellDelegate {
+    func didPressCheckButton(for index: Int, like: Bool)
+}
+
 class BottomCollectionViewCell: UICollectionViewCell {
     static let identifier = "BottomCollectionViewCell"
     let photo = UIImageView()
     let checkMark = UIButton()
     let viewModel = ViewModel()
+    
+    var delegate: CellDelegate?
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                checkMark.backgroundColor = .red
+                print("aaaa")
+            }
+        }
+    }
     
     var indexPath: Int = 0 {
         didSet {
