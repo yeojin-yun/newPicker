@@ -79,17 +79,8 @@ extension PickerViewController: UICollectionViewDataSource {
                     self.viewModel.selectedAsset.append(self.viewModel.photosFromCollection.object(at: indexPath.item))
                     self.viewModel.indexPathArray.append(indexPath)
 //                    print(self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)))
-//                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
-                    
-                    for index in self.viewModel.indexPathArray {
-                        print("✏️\(index)")
-                        print("✏️✏️",self.viewModel.indexPathArray.firstIndex(of: index))
-                        if indexPath == index {
-                            print("✏️✏️✏️",)
-                        }
-                        // 배열에서 해당 요소(=indexPath)가 몇 번째 요소인지
-                    }
-                    
+                    guard let index = self.viewModel.selectedAsset.firstIndex(of: self.viewModel.photosFromCollection.object(at: indexPath.item)) else { return }
+
                     DispatchQueue.main.async {
                         self.topCollectionView.reloadData()
                     }
@@ -108,7 +99,17 @@ extension PickerViewController: UICollectionViewDataSource {
                 }
                 // 항상 불리기 때문에 여기서 선택되지 않은 셀들에 대해서 숫자 표시할 것
                 // bottomCell.setCheckMark(index: <#T##Int#>)
-
+                for myIndex in self.viewModel.indexPathArray {
+//                    print("✏️\(index)") // 선택된 indexPath 배열의 개별 요소
+                    print("✏️✏️",self.viewModel.indexPathArray.firstIndex(of: myIndex))
+                    guard let result = self.viewModel.indexPathArray.firstIndex(of: myIndex) else { return }// 현재 눌린 셀이 인덱스 모음 배열에서 몇 번째? 이걸 셀의 체크 박스 버튼에 나타내야 함
+                    bottomCell.indexPath = result + 1
+                    
+                    // 배열에서 해당 요소(=indexPath)가 몇 번째 요소인지
+                }
+                DispatchQueue.main.async {
+                    self.bottomCollectionView.reloadData()
+                }
             }
             return bottomCell
         }
