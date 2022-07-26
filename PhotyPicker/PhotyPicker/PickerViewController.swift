@@ -62,16 +62,24 @@ extension PickerViewController: UICollectionViewDataSource, CellDelegate {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
             
+            bottomCell.delegate = self
+            bottomCell.index = indexPath.item
+            bottomCell.asset = viewModel.photosFromCollection.object(at: indexPath.item)
+            
+//            if viewModel.likes[indexPath.item] == true {
+//                bottomCell.isTouched = true
+//            } else {
+//                bottomCell.isTouched = false
+//            }
             return bottomCell
         }
     }
     
-    func didPressCheckButton(for index: Int, like: Bool) {
-        if like {
-            viewModel.selectedAsset[index] = 1
-        } else {
-            viewModel.selectedAsset[index] = 0
-        }
+    func didPressCheckButton(for index: Int, asset: PHAsset) {
+        print("🍎🍎\(index)")
+        print("🍎\(asset)")
+        viewModel.selectedAsset.append(asset)
+        
     }
 }
 

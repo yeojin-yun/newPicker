@@ -10,6 +10,8 @@ import Photos
 import PhotosUI
 
 class ViewModel {
+    var likes: [PHAsset: Bool] = [:]
+    
     var identifierArray: [String] = [String]()
     var indexPathArray: [IndexPath] = [IndexPath]() {
         didSet {
@@ -43,6 +45,7 @@ class ViewModel {
     var selectedAsset: [PHAsset] = [] {
         didSet {
             // 배열이 바뀔 때를 체크해야 함 : 배열의 index 값을 전달해야 함. (튜플?)
+            print("사진 추가됨: \(selectedAsset)")
             
         }
     }

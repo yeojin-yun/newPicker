@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         addTarget()
         setRemoteConfig()
         getNotice()
+        
     }
 
     @objc func buttonTapped(_ sender: UIButton) {

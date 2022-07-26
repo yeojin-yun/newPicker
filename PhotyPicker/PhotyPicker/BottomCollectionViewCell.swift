@@ -9,7 +9,7 @@ import UIKit
 import Photos
 
 protocol CellDelegate {
-    func didPressCheckButton(for index: Int, like: Bool)
+    func didPressCheckButton(for index: Int, asset: PHAsset)
 }
 
 class BottomCollectionViewCell: UICollectionViewCell {
@@ -20,23 +20,52 @@ class BottomCollectionViewCell: UICollectionViewCell {
     
     var delegate: CellDelegate?
     
-    override var isSelected: Bool {
+    var index: Int? {
         didSet {
-            if isSelected {
-                checkMark.backgroundColor = .red
-                print("aaaa")
+            print("didSet index: \(index)")
+        }
+    }
+    
+    var asset: PHAsset = PHAsset() {
+        didSet {
+            print("didSet asset: \(asset)")
+            
+        }
+    }
+    
+    @objc func checkMarkTapped(_ sender: UIButton) {
+        guard let idx = index else { return }
+        print("idx: \(idx)")
+        if sender.isSelected {
+//            isTouched = true
+            delegate?.didPressCheckButton(for: idx, asset: asset)
+        } else {
+//            isTouched = false
+            delegate?.didPressCheckButton(for: idx, asset: asset)
+        }
+        sender.isSelected = !sender.isSelected
+    }
+    
+    var isTouched: Bool? {
+        didSet {
+            if isTouched == true {
+                checkMark.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+                checkMark.setImage(UIImage(systemName: "heart"), for: .normal)
             }
         }
     }
     
-    var indexPath: Int = 0 {
-        didSet {
-            setCheckMark(index: indexPath)
-        }
-    }
+//    override var isSelected: Bool {
+//        didSet {
+//            if isSelected {
+//                checkMark.backgroundColor = .red
+//                print("aaaa")
+//            }
+//        }
+//    }
     
-    var checkMarkButtonTapped: (BottomCollectionViewCell) -> Void = { (sender) in }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
@@ -61,11 +90,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
         checkMark.backgroundColor = .lightGray
         checkMark.tintColor = .darkGray
     }
-    
-    func check(asset: PHAsset) {
-        
-    }
-    
+
     func setConstraints() {
         [photo, checkMark].forEach {
             contentView.addSubview($0)
@@ -85,9 +110,14 @@ class BottomCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    @objc func checkMarkTapped(_ sender: UIButton) {
-        checkMarkButtonTapped(self)
+    var indexPath: Int = 0 {
+        didSet {
+            setCheckMark(index: indexPath)
+        }
     }
+    
+    var checkMarkButtonTapped: (BottomCollectionViewCell) -> Void = { (sender) in }
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
