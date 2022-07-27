@@ -38,8 +38,10 @@ class BottomCollectionViewCell: UICollectionViewCell {
         print("idx: \(idx)")
         if sender.isSelected {
 //            isTouched = true
+            checkMark.setTitle("\(idx)", for: .normal)
             delegate?.didPressCheckButton(for: idx, asset: asset)
         } else {
+            checkMark.setTitle("", for: .normal)
 //            isTouched = false
             delegate?.didPressCheckButton(for: idx, asset: asset)
         }

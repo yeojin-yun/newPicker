@@ -12,12 +12,22 @@ import SwiftUI
 class ViewController: UIViewController {
     
     let button = UIButton()
+    let button2 = UIButton()
     let mainLabel = UILabel()
     let subLabel = UILabel()
     
     var content: (main: String, sub: String)?
     
     var remoteConfig: RemoteConfig?
+    
+    var urlArray = [
+        "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/1/윤여진/1658732562644/4497328bytes.jpg",
+        "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/3/윤여진/1658732563283/4632754bytes.jpg",
+        "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/2/윤여진/1658732563012/6746963bytes.jpg",
+        "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/4/윤여진/1658732563579/6086719bytes.jpg",
+        "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/5/윤여진/1658732563939/821163bytes.jpg"
+    ]
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +40,23 @@ class ViewController: UIViewController {
     }
 
     @objc func buttonTapped(_ sender: UIButton) {
-        let nextVC = AlbumsViewController()
-        let nav = UINavigationController(rootViewController: nextVC)
-//        self.navigationController?.pushViewController(nextVC, animated: true)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: true)
+        switch sender {
+        case button:
+            let nextVC = AlbumsViewController()
+            let nav = UINavigationController(rootViewController: nextVC)
+    //        self.navigationController?.pushViewController(nextVC, animated: true)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        case button2:
+            let nextVC = CollectionViewController()
+            let nav = UINavigationController(rootViewController: nextVC)
+    //        self.navigationController?.pushViewController(nextVC, animated: true)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        default:
+            break
+        }
+        
     }
 }
 
@@ -80,12 +102,17 @@ extension ViewController {
 extension ViewController {
     func addTarget() {
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        button2.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
     }
     
     func setDetail() {
         button.setTitleColor(.white, for: .normal)
         button.setTitle("사진 선택", for: .normal)
         button.backgroundColor = .black
+        
+        button2.setTitleColor(.white, for: .normal)
+        button2.setTitle("컬렉션뷰", for: .normal)
+        button2.backgroundColor = .black
         
         [mainLabel].forEach {
             $0.numberOfLines = 0
@@ -99,7 +126,7 @@ extension ViewController {
     }
     
     func setConstraint() {
-        [button, mainLabel, subLabel].forEach {
+        [button, mainLabel, subLabel, button2].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -113,7 +140,11 @@ extension ViewController {
             
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            button.widthAnchor.constraint(equalToConstant: 200)
+            button.widthAnchor.constraint(equalToConstant: 200),
+            
+//            button2.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button2.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 30),
+            button2.widthAnchor.constraint(equalToConstant: 200),
         ])
     }
 }
