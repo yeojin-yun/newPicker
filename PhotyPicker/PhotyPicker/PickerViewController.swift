@@ -78,6 +78,10 @@ extension PickerViewController: UICollectionViewDataSource, CellDelegate {
     func didPressCheckButton(for index: Int, asset: PHAsset) {
         print("🍎🍎\(index)")
         print("🍎\(asset)")
+        print("🍎\(asset)")
+        print("🍎\(asset)")
+        
+        
         viewModel.selectedAsset.append(asset)
         
     }
