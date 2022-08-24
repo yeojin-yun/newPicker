@@ -48,11 +48,12 @@ class ViewController: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true)
         case button2:
-            let nextVC = CollectionViewController()
-            let nav = UINavigationController(rootViewController: nextVC)
+            break
+//            let nextVC = CollectionViewController()
+//            let nav = UINavigationController(rootViewController: nextVC)
     //        self.navigationController?.pushViewController(nextVC, animated: true)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: true)
+//            nav.modalPresentationStyle = .fullScreen
+//            self.present(nav, animated: true)
         default:
             break
         }
@@ -142,7 +143,7 @@ extension ViewController {
             button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             button.widthAnchor.constraint(equalToConstant: 200),
             
-//            button2.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             button2.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 30),
             button2.widthAnchor.constraint(equalToConstant: 200),
         ])
