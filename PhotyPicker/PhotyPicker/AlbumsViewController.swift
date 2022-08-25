@@ -44,9 +44,9 @@ extension AlbumsViewController: UICollectionViewDataSource {
 
 extension AlbumsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let nextVC = PickerViewController()
+        let nextVC = NewPickerViewController()
         nextVC.title = viewModel.albums[indexPath.item].localizedTitle
-        nextVC.selectedCollection = viewModel.albums[indexPath.item]
+        nextVC.selectingPhasset = viewModel.albums[indexPath.item]
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

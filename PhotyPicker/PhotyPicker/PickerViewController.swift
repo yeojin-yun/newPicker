@@ -41,7 +41,7 @@ class PickerViewController: UIViewController {
     }
 }
 
-extension PickerViewController: UICollectionViewDataSource, CellDelegate {
+extension PickerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
             return viewModel.selectedAsset.count
@@ -62,9 +62,9 @@ extension PickerViewController: UICollectionViewDataSource, CellDelegate {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
             
-            bottomCell.delegate = self
-            bottomCell.index = indexPath.item
-            bottomCell.asset = viewModel.photosFromCollection.object(at: indexPath.item)
+//            bottomCell.delegate = self
+//            bottomCell.index = indexPath.item
+//            bottomCell.currentAsset = viewModel.photosFromCollection.object(at: indexPath.item)
             
 //            if viewModel.likes[indexPath.item] == true {
 //                bottomCell.isTouched = true

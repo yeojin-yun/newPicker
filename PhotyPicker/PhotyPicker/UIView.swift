@@ -11,8 +11,13 @@ extension UIView {
     
     // MARK: - Public methods
     
-    func roundedCorners() {
-        self.layer.cornerRadius = self.bounds.size.height/2
+    func roundedCorners(with width: CGFloat) {
+        self.layer.cornerRadius = width / 2
+        self.clipsToBounds = true
+    }
+    
+    func roudedCorners() {
+        self.layer.cornerRadius = self.bounds.size.height / 2
         self.clipsToBounds = true
     }
 }

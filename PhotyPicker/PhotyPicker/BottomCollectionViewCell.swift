@@ -8,8 +8,8 @@
 import UIKit
 import Photos
 
-protocol CellDelegate {
-    func didPressCheckButton(for index: Int, asset: PHAsset)
+protocol BottomCellDelegate: AnyObject {
+    func didPressCheckButton(_ cell: BottomCollectionViewCell, _ asset: PHAsset, index: IndexPath)
 }
 
 class BottomCollectionViewCell: UICollectionViewCell {
@@ -18,63 +18,44 @@ class BottomCollectionViewCell: UICollectionViewCell {
     let checkMark = UIButton()
     let viewModel = ViewModel()
     
-    var delegate: CellDelegate?
-    
-    var index: Int? {
+    weak var delegate: BottomCellDelegate?
+
+    var currentAsset: PHAsset = PHAsset() {
         didSet {
-            print("didSet index: \(index)")
+            print("didSet asset: \(currentAsset)")
         }
     }
     
-    var asset: PHAsset = PHAsset() {
+    var currentIndex: IndexPath {
         didSet {
-            print("didSet asset: \(asset)")
             
         }
     }
-    
-    @objc func checkMarkTapped(_ sender: UIButton) {
-        guard let idx = index else { return }
-        print("idx: \(idx)")
-        if sender.isSelected {
-//            isTouched = true
-            checkMark.setTitle("\(idx)", for: .normal)
-            delegate?.didPressCheckButton(for: idx, asset: asset)
-        } else {
-            checkMark.setTitle("", for: .normal)
-//            isTouched = false
-            delegate?.didPressCheckButton(for: idx, asset: asset)
-        }
-        sender.isSelected = !sender.isSelected
-    }
-    
-    var isTouched: Bool? {
-        didSet {
-            if isTouched == true {
-                checkMark.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            } else {
-                checkMark.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
-        }
-    }
-    
+
 //    override var isSelected: Bool {
 //        didSet {
 //            if isSelected {
-//                checkMark.backgroundColor = .red
-//                print("aaaa")
+//                setCheckMark(index: <#T##Int#>)
+//            } else {
+//
 //            }
 //        }
 //    }
     
+    @objc func checkMarkTapped(_ sender: UIButton) {
+        print("체크 박스가 눌렸슴돠", sender.isSelected)
+        sender.isSelected = true
+        delegate?.didPressCheckButton(self, currentAsset, index: <#T##IndexPath#>)
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setConstraints()
         setDetail()
+        setConstraints()
     }
     
     func setDetail() {
+        checkMark.roundedCorners(with: 25)
         checkMark.layer.borderColor = UIColor.darkGray.cgColor
         checkMark.layer.borderWidth = 2
         checkMark.backgroundColor = .lightGray
@@ -91,6 +72,8 @@ class BottomCollectionViewCell: UICollectionViewCell {
         checkMark.layer.borderWidth = 2
         checkMark.backgroundColor = .lightGray
         checkMark.tintColor = .darkGray
+//        checkMark.roundedCorners()
+        
     }
 
     func setConstraints() {
@@ -112,29 +95,23 @@ class BottomCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    var indexPath: Int = 0 {
-        didSet {
-            setCheckMark(index: indexPath)
-        }
-    }
-    
     var checkMarkButtonTapped: (BottomCollectionViewCell) -> Void = { (sender) in }
     
     
     override func prepareForReuse() {
         super.prepareForReuse()
+//        checkMark.roundedCorners(with: 25)
+        checkMark.setTitle(nil, for: .normal)
         self.photo.image = nil
-        self.checkMark.setTitle("", for: .normal)
         photo.contentMode = .scaleAspectFill
         self.photo.clipsToBounds = true
-        checkMark.roundedCorners()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        checkMark.roundedCorners(with: 25)
         photo.contentMode = .scaleAspectFill
         self.photo.clipsToBounds = true
-        checkMark.roundedCorners()
     }
     
     required init?(coder: NSCoder) {

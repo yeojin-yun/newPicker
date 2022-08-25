@@ -9,8 +9,15 @@ import UIKit
 import Photos
 import PhotosUI
 
+struct AssetModel {
+    var asset: PHAsset
+    var count: Int?
+    
+}
+
 class ViewModel {
-    var likes: [PHAsset: Bool] = [:]
+    var testAsset = [PHAsset]()
+    var likes: [AssetModel] = []
     
     var identifierArray: [String] = [String]()
     var indexPathArray: [IndexPath] = [IndexPath]() {
