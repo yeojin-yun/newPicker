@@ -9,7 +9,8 @@ import UIKit
 import Photos
 
 protocol BottomCellDelegate: AnyObject {
-    func didPressCheckButton(_ cell: BottomCollectionViewCell, _ asset: PHAsset, index: Int)
+    func didPressCheckButton(_ cell: BottomCollectionViewCell)
+
 }
 
 class BottomCollectionViewCell: UICollectionViewCell {
@@ -22,13 +23,15 @@ class BottomCollectionViewCell: UICollectionViewCell {
 
     var currentAsset: PHAsset = PHAsset() {
         didSet {
-            print("didSet asset: \(currentAsset)")
+            //print("didSet asset: \(currentAsset)")
         }
     }
     
-    var currentIndex: Int {
+
+    var currentIndex: Int = 0 {
+
         didSet {
-            
+            //print("currentIndex: \(currentIndex)")
         }
     }
 
@@ -44,8 +47,9 @@ class BottomCollectionViewCell: UICollectionViewCell {
     
     @objc func checkMarkTapped(_ sender: UIButton) {
         print("체크 박스가 눌렸슴돠", sender.isSelected)
-        sender.isSelected = true
-        delegate?.didPressCheckButton(self, currentAsset, index: currentIndex)
+        print("---------",currentAsset, "---------", currentIndex)
+        delegate?.didPressCheckButton(self)
+
     }
 
     override init(frame: CGRect) {

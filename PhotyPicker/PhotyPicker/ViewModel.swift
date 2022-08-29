@@ -9,14 +9,16 @@ import UIKit
 import Photos
 import PhotosUI
 
-struct AssetModel {
-    var asset: PHAsset
-    var count: Int?
+
+struct ImageData {
+    var image: PHAsset
+    var selectedNumber: Int?
+    var selectedIndexPath: Int
 }
 
 class ViewModel {
-    var testAsset = [PHAsset]()
-    var likes: [AssetModel] = []
+    var selectedImages = [PHAsset]()
+    var images: [ImageData] = []
     
     var identifierArray: [String] = [String]()
     var indexPathArray: [IndexPath] = [IndexPath]() {
@@ -51,7 +53,7 @@ class ViewModel {
     var selectedAsset: [PHAsset] = [] {
         didSet {
             // 배열이 바뀔 때를 체크해야 함 : 배열의 index 값을 전달해야 함. (튜플?)
-            print("사진 추가됨: \(selectedAsset)")
+            // print("사진 추가됨: \(selectedAsset)")
             
         }
     }
