@@ -60,24 +60,41 @@ extension SelectingView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError() }
         cell.photo.image = fetchResult.object(at: indexPath.item).getAssetThumbnail(size: cell.photo.frame.size)
+        cell.currentAsset = fetchResult.object(at: indexPath.item)
+        cell.currentIndex = indexPath.item
         cell.delegate = self
         return cell
     }
 }
 
 extension SelectingView: BottomCellDelegate {
-    func didPressCheckButton(_ cell: BottomCollectionViewCell, _ asset: PHAsset, index: IndexPath) {
-        cell.currentAsset = index.item
-        viewModel.selectedAsset.append(asset)
-        print(viewModel.selectedAsset.count)
-        let count = viewModel.selectedAsset.count
+    
+    func didPressCheckButton(_ cell: BottomCollectionViewCell) {
+
+        // 선택된 적이 없으면
+        print(cell.currentIndex)
+//        viewModel.image
+//        if viewModel.images[cell.currentIndex].selectedNumber != nil {
+//            // 이미 선택된 적이 있으면
+//        } else {
+//            // 선택된 적이 없으면
+//            let image = viewModel.images[cell.currentIndex].image
+//            viewModel.selectedImages.append(image)
+//            viewModel.images[cell.currentIndex].selectedNumber = viewModel.selectedImages.count //0번째부터 할당해도 된다
+//        }
+        collectionView.reloadData()
         
-        let modelCase = AssetModel(asset: asset, count: count)
-        viewModel.likes.append(modelCase)
         
-        cell.setCheckMark(index: count)
-        cell.checkMark.backgroundColor = .black
-        cell.isSelected = true
+//        viewModel.selectedAsset.append(asset)
+//        print(viewModel.selectedAsset.count)
+//        let count = viewModel.selectedAsset.count
+//        
+//        let modelCase = AssetModel(asset: asset, count: count)
+//        viewModel.likes.append(modelCase)
+//        
+//        cell.setCheckMark(index: count)
+//        cell.checkMark.backgroundColor = .black
+//        cell.isSelected = true
     }
 }
 
