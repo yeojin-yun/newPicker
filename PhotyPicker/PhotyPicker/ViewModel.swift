@@ -12,7 +12,6 @@ import PhotosUI
 struct AssetModel {
     var asset: PHAsset
     var count: Int?
-    
 }
 
 class ViewModel {
@@ -84,5 +83,4 @@ class ViewModel {
         fetchOption.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         self.photosFromCollection = PHAsset.fetchAssets(in: selectedCollection, options: fetchOption)
     }
-    
 }
