@@ -10,6 +10,7 @@ import Photos
 
 protocol BottomCellDelegate: AnyObject {
     func didPressCheckButton(_ cell: BottomCollectionViewCell)
+
 }
 
 class BottomCollectionViewCell: UICollectionViewCell {
@@ -26,7 +27,9 @@ class BottomCollectionViewCell: UICollectionViewCell {
         }
     }
     
+
     var currentIndex: Int = 0 {
+
         didSet {
             //print("currentIndex: \(currentIndex)")
         }
@@ -46,6 +49,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
 //        print("체크 박스가 눌렸슴돠", sender.isSelected)
 //        print("---------",currentAsset, "---------", currentIndex)
         delegate?.didPressCheckButton(self)
+
     }
 
     override init(frame: CGRect) {
