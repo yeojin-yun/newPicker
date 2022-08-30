@@ -10,9 +10,12 @@ import Photos
 
 class SelectedView: UIView {
     
+    let viewModel = ViewModel()
+    
     var selectedAsset: [PHAsset] = [] {
         didSet {
             collectionView.reloadData()
+            print("선택됨")
         }
     }
     
@@ -38,12 +41,20 @@ class SelectedView: UIView {
         super.init(frame: .zero)
         setUI()
         collectionView.backgroundColor = .red
+        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+extension SelectedView: ViewModelDelegate {
+    func getNewAsset(_ assetArray: [PHAsset]) {
+        print("delegate")
+        self.selectedAsset = assetArray
+    }
 }
 
 extension SelectedView: UICollectionViewDataSource {
@@ -54,7 +65,7 @@ extension SelectedView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError() }
         cell.setImage(asset: selectedAsset[indexPath.item])
-
+        cell.backgroundColor = .yellow
         return cell
     }
 }

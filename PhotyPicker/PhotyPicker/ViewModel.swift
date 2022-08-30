@@ -16,7 +16,14 @@ struct ImageData {
 //    var selectedIndexPath: Int
 }
 
+protocol ViewModelDelegate: AnyObject {
+    func getNewAsset(_ assetArray: [PHAsset])
+}
+
 class ViewModel {
+
+    weak var delegate: ViewModelDelegate? 
+    
     var selectedImages = [PHAsset]()
     var images: [ImageData] = [] {
         willSet {
@@ -58,11 +65,12 @@ class ViewModel {
 
         }
     }
-    //  bottomCollectionView에서 선택된 사진이 들어가는 배열 (top CollectionView를 구성함)
     
+    //  bottomCollectionView에서 선택된 사진이 들어가는 배열 (top CollectionView를 구성함
     var selectedAsset: [PHAsset] = [] {
         didSet {
-            //print("배열에 사진 담김")
+            delegate?.getNewAsset(selectedAsset)
+            print("viewModel의 selectedAsset")
         }
     }
     
