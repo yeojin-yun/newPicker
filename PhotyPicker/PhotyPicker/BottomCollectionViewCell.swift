@@ -43,8 +43,8 @@ class BottomCollectionViewCell: UICollectionViewCell {
 //    }
     
     @objc func checkMarkTapped(_ sender: UIButton) {
-        print("체크 박스가 눌렸슴돠", sender.isSelected)
-        print("---------",currentAsset, "---------", currentIndex)
+//        print("체크 박스가 눌렸슴돠", sender.isSelected)
+//        print("---------",currentAsset, "---------", currentIndex)
         delegate?.didPressCheckButton(self)
     }
 
@@ -66,8 +66,12 @@ class BottomCollectionViewCell: UICollectionViewCell {
         checkMark.setTitle("", for: .normal)
     }
     
-    func setCheckMark(index: Int) {
-        checkMark.setTitle("\(index)", for: .normal)
+    func setCheckMark(index: Int?) {
+        if let index = index {
+            checkMark.setTitle("\(index)", for: .normal)
+        } else {
+            checkMark.setTitle("", for: .normal)
+        }
         checkMark.layer.borderColor = UIColor.darkGray.cgColor
         checkMark.layer.borderWidth = 2
         checkMark.backgroundColor = .lightGray

@@ -12,17 +12,26 @@ import PhotosUI
 struct ImageData {
     var image: PHAsset
     var selectedNumber: Int?
-    var selectedIndexPath: Int
+//    var selectedIndexPath: Int
 }
 
 class ViewModel {
     var selectedImages = [PHAsset]()
-    var images: [ImageData] = []
+    var images: [ImageData] = [] {
+        willSet {
+            //print("count", images)
+        }
+    }
+    var selectedIndex: [Int] = [] {
+        didSet {
+            print(selectedIndex.count)
+        }
+    }
     
     var identifierArray: [String] = [String]()
     var indexPathArray: [IndexPath] = [IndexPath]() {
         didSet {
-            print("새로운 값: \(indexPathArray)")
+            //print("새로운 값: \(indexPathArray)")
         }
     }
     
@@ -44,16 +53,15 @@ class ViewModel {
     //  앨범뷰컨에서 선택된 앨범에 들어있는 사진 (bottom collectionView를 구성함)
     var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>() {
         didSet {
-            //print("값 들어옴\(selectedCollection.assetCount())")
+            //print("값 들어옴\(photosFromCollection)", photosFromCollection.count)
+
         }
     }
     //  bottomCollectionView에서 선택된 사진이 들어가는 배열 (top CollectionView를 구성함)
     
     var selectedAsset: [PHAsset] = [] {
         didSet {
-            // 배열이 바뀔 때를 체크해야 함 : 배열의 index 값을 전달해야 함. (튜플?)
-            // print("사진 추가됨: \(selectedAsset)")
-            
+            //print("배열에 사진 담김")
         }
     }
     
@@ -84,5 +92,4 @@ class ViewModel {
         fetchOption.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         self.photosFromCollection = PHAsset.fetchAssets(in: selectedCollection, options: fetchOption)
     }
-    
 }
