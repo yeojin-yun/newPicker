@@ -13,8 +13,7 @@ import Photos
 //}
 
 class SelectingView: UIView {
-    
-    
+
     public var fetchResult: PHFetchResult<PHAsset> {
         didSet {
             collectionView.reloadData()
@@ -50,6 +49,7 @@ class SelectingView: UIView {
             self.viewModel.images.append(sample)
         }
         setUI()
+        print("SelectingView init")
     }
     
     required init?(coder: NSCoder) {

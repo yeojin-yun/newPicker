@@ -17,19 +17,30 @@ struct ImageData {
 }
 
 protocol ViewModelDelegate: AnyObject {
+//    var test: String { get set }
     func getNewAsset(_ assetArray: [PHAsset])
 }
 
-class ViewModel {
 
-    weak var delegate: ViewModelDelegate? 
+class ViewModel {
+    init() {
+        print("viewModel init")
+    }
+
+    weak var delegate: ViewModelDelegate? {
+        didSet {
+            print("delegate didSet")
+        }
+    }
     
     var selectedImages = [PHAsset]()
+    
     var images: [ImageData] = [] {
         willSet {
             //print("count", images)
         }
     }
+    
     var selectedIndex: [Int] = [] {
         didSet {
             print(selectedIndex.count)
@@ -62,14 +73,13 @@ class ViewModel {
     var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>() {
         didSet {
             //print("값 들어옴\(photosFromCollection)", photosFromCollection.count)
-
         }
     }
     
-    //  bottomCollectionView에서 선택된 사진이 들어가는 배열 (top CollectionView를 구성함
+    //  bottomCollectionView에서 선택된 사진이 들어가는 배열 (top CollectionView를 구성함)
     var selectedAsset: [PHAsset] = [] {
         didSet {
-            delegate?.getNewAsset(selectedAsset)
+            self.delegate?.getNewAsset(self.selectedAsset)
             print("viewModel의 selectedAsset")
         }
     }

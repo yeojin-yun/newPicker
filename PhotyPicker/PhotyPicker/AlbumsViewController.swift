@@ -21,6 +21,7 @@ class AlbumsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        print("AlbumsVC", #function)
         setUI()
         viewModel.fetchCollection()
         DispatchQueue.main.async {

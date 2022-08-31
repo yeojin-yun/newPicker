@@ -25,10 +25,10 @@ class NewPickerViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureUI()
+        print("NewPickerVC", #function)
+//        viewModel.delegate = topCollectionView
     }
 }
-
-
 
 //MARK: -UI
 extension NewPickerViewController {
@@ -41,6 +41,7 @@ extension NewPickerViewController {
     final private func setAttributes() {
         
     }
+    
     final private func addTarget() {
         
     }

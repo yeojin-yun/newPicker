@@ -10,7 +10,8 @@ import Photos
 
 class SelectedView: UIView {
     
-    let viewModel = ViewModel()
+    let viewModel: ViewModel?
+    
     
     var selectedAsset: [PHAsset] = [] {
         didSet {
@@ -18,7 +19,6 @@ class SelectedView: UIView {
             print("선택됨")
         }
     }
-    
 
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,19 +38,22 @@ class SelectedView: UIView {
     
     init(asset: [PHAsset]) {
         self.selectedAsset = asset
+        self.viewModel = ViewModel()
         super.init(frame: .zero)
+        print("selectedView init")
         setUI()
         collectionView.backgroundColor = .red
-        viewModel.delegate = self
+//        viewModel = ViewModel()
+        viewModel?.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension SelectedView: ViewModelDelegate {
+
     func getNewAsset(_ assetArray: [PHAsset]) {
         print("delegate")
         self.selectedAsset = assetArray
@@ -59,6 +62,7 @@ extension SelectedView: ViewModelDelegate {
 
 extension SelectedView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(selectedAsset.count)
         return selectedAsset.count
     }
     
