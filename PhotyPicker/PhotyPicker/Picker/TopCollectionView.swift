@@ -8,15 +8,15 @@
 import UIKit
 import Photos
 
-class SelectedView: UIView {
+class TopCollectionView: UIView {
     
-    let viewModel: ViewModel?
-    
+    let viewModel: PickerViewModel?
     
     var selectedAsset: [PHAsset] = [] {
         didSet {
             collectionView.reloadData()
-            print("선택됨")
+            viewModel?.selectedAsset = self.selectedAsset
+            print("🟠",selectedAsset)
         }
     }
 
@@ -29,7 +29,7 @@ class SelectedView: UIView {
         layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
-        collectionView.delegate = self
+        
         collectionView.dataSource = self
         collectionView.register(TopCollectionViewCell.self, forCellWithReuseIdentifier: TopCollectionViewCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,13 +38,10 @@ class SelectedView: UIView {
     
     init(asset: [PHAsset]) {
         self.selectedAsset = asset
-        self.viewModel = ViewModel()
+        self.viewModel = PickerViewModel()
         super.init(frame: .zero)
         print("selectedView init")
         setUI()
-        collectionView.backgroundColor = .red
-//        viewModel = ViewModel()
-        viewModel?.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -52,15 +49,30 @@ class SelectedView: UIView {
     }
 }
 
-extension SelectedView: ViewModelDelegate {
 
+// ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+extension TopCollectionView: PickerDelegate {
     func getNewAsset(_ assetArray: [PHAsset]) {
-        print("delegate")
-        self.selectedAsset = assetArray
+        //BottomCollectionView에서 assset이 추가되거나 삭제되면 불리게 되는 메서드
+        selectedAsset = assetArray
     }
 }
 
-extension SelectedView: UICollectionViewDataSource {
+// ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+extension TopCollectionView: TopCellDelegate {
+    func didPressDeleteButton(_ cell: TopCollectionViewCell) {
+        // 삭제를 누르면 발생할 일
+        // 1. Top - dataSource에서 해당 이미지 remove
+        let indexPath = cell.currentIndex
+        print("====",indexPath)
+        selectedAsset.remove(at: indexPath)
+        
+        // Bottom - dataSource에도 적용되도록
+        //
+    }
+}
+
+extension TopCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(selectedAsset.count)
         return selectedAsset.count
@@ -69,16 +81,15 @@ extension SelectedView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError() }
         cell.setImage(asset: selectedAsset[indexPath.item])
-        cell.backgroundColor = .yellow
+        cell.currentIndex = indexPath.item
+        cell.delegate = self
         return cell
     }
 }
 
-extension SelectedView: UICollectionViewDelegate {
-    
-}
 
-extension SelectedView {
+
+extension TopCollectionView {
     func setUI() {
         self.addSubview(collectionView)
         NSLayoutConstraint.activate([

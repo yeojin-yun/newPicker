@@ -17,7 +17,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
     static let identifier = "BottomCollectionViewCell"
     let photo = UIImageView()
     let checkMark = UIButton()
-    let viewModel = ViewModel()
+    let viewModel = PickerViewModel()
     
     weak var delegate: BottomCellDelegate?
 

@@ -9,12 +9,8 @@ import UIKit
 import Photos
 
 class AlbumsViewController: UIViewController {
-//    var albums: [PHAssetCollection] = [] {
-//        didSet {
-//            print(albums)
-//        }
-//    }
-    let viewModel = ViewModel()
+
+    let viewModel = AlbumViewModel()
     
     let albumCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -45,9 +41,10 @@ extension AlbumsViewController: UICollectionViewDataSource {
 
 extension AlbumsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let pickerViewModel = PickerViewModel()
         let nextVC = NewPickerViewController()
         nextVC.title = viewModel.albums[indexPath.item].localizedTitle
-        nextVC.selectingPhasset = viewModel.albums[indexPath.item]
+        nextVC.viewModel.selectedCollection = viewModel.albums[indexPath.item]
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

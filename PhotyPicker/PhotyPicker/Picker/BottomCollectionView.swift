@@ -8,20 +8,27 @@
 import UIKit
 import Photos
 
-//protocol SelectingViewDelegate: AnyObject {
-//    func didSelectToItem(at index: Int)
-//}
+protocol PickerDelegate: AnyObject {
+    func getNewAsset(_ assetArray: [PHAsset])
+}
 
-class SelectingView: UIView {
+
+class BottomCollectionView: UIView {
+    
+    weak var delegate: PickerDelegate? {
+        didSet {
+            print("delegate didSet")
+        }
+    }
 
     public var fetchResult: PHFetchResult<PHAsset> {
         didSet {
             collectionView.reloadData()
-            print("ddd")
+            print("🩸")
         }
     }
     
-    let viewModel = ViewModel()
+    let viewModel = PickerViewModel()
     
 //    weak var delegate: SelectingViewDelegate?
 
@@ -57,7 +64,7 @@ class SelectingView: UIView {
     }
 }
 
-extension SelectingView: UICollectionViewDataSource {
+extension BottomCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchResult.count
     }
@@ -74,7 +81,11 @@ extension SelectingView: UICollectionViewDataSource {
     }
 }
 
-extension SelectingView: BottomCellDelegate {
+// ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+// 1. bottom에서 선택 -> bottom cell에 넘버링 되어야 함,top에 추가가 되어야 함
+// 2. bottom에서 선택 해제 -> bottom cell에 넘버링 빠져야 함, top에서 제거되어야 함
+// 이 작업이 PickerViewModel에 있는 selectedAsset에서 이루어짐 (다른 변수를 만들어내는 순간 관리가 안됨)
+extension BottomCollectionView: BottomCellDelegate {
     
     func didPressCheckButton(_ cell: BottomCollectionViewCell) {
 
@@ -86,34 +97,29 @@ extension SelectingView: BottomCellDelegate {
             viewModel.selectedAsset.remove(at: selectedNumber - 1)
             viewModel.images[cell.currentIndex].selectedNumber = nil
             
-//            print("selectedNumber", selectedNumber, "vs", "selectedAsset", viewModel.selectedAsset.count)
 
-            //제거된 에셋의 selectedNumber를 nil으로 바꿔야하고, 남은 에셋의 selectedNumber를 재조정해줘야 함
             viewModel.images = viewModel.images.map {
                 guard var number = $0.selectedNumber else { return ImageData(image: $0.image, selectedNumber: nil) }
-//                print("guardNumber", number)
+
                 if number > selectedNumber {
                     number -= 1
-//                    print("number", number)
+
                 }
                 return ImageData(image: $0.image, selectedNumber: number)
             }
-//            print("currentIndex:", cell.currentIndex)
-//            dump(viewModel.images)
-//            print("current:", viewModel.images[cell.currentIndex].selectedNumber)
             cell.setCheckMark(index: viewModel.images[cell.currentIndex].selectedNumber)
             collectionView.reloadData()
         } else {
             // 선택된 적이 없으면
             viewModel.selectedAsset.append(viewModel.images[cell.currentIndex].image)
             viewModel.images[cell.currentIndex].selectedNumber = viewModel.selectedAsset.count
-            //guard let number = viewModel.images[cell.currentIndex].selectedNumber else { return }
             cell.setCheckMark(index: viewModel.selectedAsset.count)
         }
+        delegate?.getNewAsset(viewModel.selectedAsset)
     }
 }
 
-extension SelectingView {
+extension BottomCollectionView {
     func setUI() {
         self.addSubview(collectionView)
         NSLayoutConstraint.activate([

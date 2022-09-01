@@ -16,7 +16,6 @@
 		0C664C232884FEC70067F538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C664C222884FEC70067F538 /* Assets.xcassets */; };
 		0C664C262884FEC70067F538 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C664C242884FEC70067F538 /* LaunchScreen.storyboard */; };
 		0C664C2E288501430067F538 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C2D288501430067F538 /* PickerViewController.swift */; };
-		0C664C30288501F80067F538 /* pickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C664C2F288501F80067F538 /* pickerView.swift */; };
 		0C664C3228851EEC0067F538 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C664C3128851EEC0067F538 /* GoogleService-Info.plist */; };
 		0C664C35288520F00067F538 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0C664C34288520F00067F538 /* FirebaseAnalytics */; };
 		0C664C37288520F00067F538 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 0C664C36288520F00067F538 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -63,10 +62,13 @@
 		0CB6E7DB288678E60011BCA8 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */; };
 		0CBF5CE62887C8760092AC40 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */; };
 		0CBF5CE82887DB320092AC40 /* PHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CE72887DB320092AC40 /* PHAsset.swift */; };
-		0CBF5CEC288925BC0092AC40 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CEB288925BC0092AC40 /* ViewModel.swift */; };
-		0CEAE25828B5E78B004B5037 /* SelectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE25728B5E78B004B5037 /* SelectedView.swift */; };
-		0CEAE25A28B5E792004B5037 /* SelectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE25928B5E792004B5037 /* SelectingView.swift */; };
+		0CBF5CEC288925BC0092AC40 /* PickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF5CEB288925BC0092AC40 /* PickerViewModel.swift */; };
+		0CEAE25828B5E78B004B5037 /* TopCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE25728B5E78B004B5037 /* TopCollectionView.swift */; };
+		0CEAE25A28B5E792004B5037 /* BottomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE25928B5E792004B5037 /* BottomCollectionView.swift */; };
 		0CEAE25C28B5EC2B004B5037 /* NewPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE25B28B5EC2B004B5037 /* NewPickerViewController.swift */; };
+		0CEAE27E28BF18B0004B5037 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE27D28BF18B0004B5037 /* AlbumViewModel.swift */; };
+		0CEAE28528C03383004B5037 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE28428C03383004B5037 /* ImageData.swift */; };
+		0CEAE28728C05087004B5037 /* BottomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE28628C05087004B5037 /* BottomViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +83,6 @@
 		0C664C252884FEC70067F538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C664C272884FEC70067F538 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C664C2D288501430067F538 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
-		0C664C2F288501F80067F538 /* pickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickerView.swift; sourceTree = "<group>"; };
 		0C664C3128851EEC0067F538 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0C664C4A288521E70067F538 /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		0C664C8328854A320067F538 /* TopCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -90,10 +91,13 @@
 		0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
 		0CBF5CE72887DB320092AC40 /* PHAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAsset.swift; sourceTree = "<group>"; };
-		0CBF5CEB288925BC0092AC40 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		0CEAE25728B5E78B004B5037 /* SelectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedView.swift; sourceTree = "<group>"; };
-		0CEAE25928B5E792004B5037 /* SelectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectingView.swift; sourceTree = "<group>"; };
+		0CBF5CEB288925BC0092AC40 /* PickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewModel.swift; sourceTree = "<group>"; };
+		0CEAE25728B5E78B004B5037 /* TopCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCollectionView.swift; sourceTree = "<group>"; };
+		0CEAE25928B5E792004B5037 /* BottomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCollectionView.swift; sourceTree = "<group>"; };
 		0CEAE25B28B5EC2B004B5037 /* NewPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPickerViewController.swift; sourceTree = "<group>"; };
+		0CEAE27D28BF18B0004B5037 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
+		0CEAE28428C03383004B5037 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		0CEAE28628C05087004B5037 /* BottomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,31 +168,73 @@
 		0C664C182884FEC50067F538 /* PhotyPicker */ = {
 			isa = PBXGroup;
 			children = (
-				0C664C192884FEC50067F538 /* AppDelegate.swift */,
-				0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */,
-				0C664C1B2884FEC50067F538 /* SceneDelegate.swift */,
-				0C664C1D2884FEC50067F538 /* ViewController.swift */,
-				0C664C4A288521E70067F538 /* Property List.plist */,
-				0C664C2D288501430067F538 /* PickerViewController.swift */,
-				0C664C8328854A320067F538 /* TopCollectionViewCell.swift */,
-				0C664C8528854A3B0067F538 /* BottomCollectionViewCell.swift */,
-				0C664C2F288501F80067F538 /* pickerView.swift */,
+				0C634E0228881DF000A4BE2D /* Constant.swift */,
+				0CEAE28228C0320E004B5037 /* Home */,
+				0CEAE28128C031EB004B5037 /* Albums */,
+				0CEAE28328C0322F004B5037 /* Picker */,
+				0CEAE28028BF18E2004B5037 /* Extension */,
+				0C664C272884FEC70067F538 /* Info.plist */,
+				0CEAE27F28BF18B6004B5037 /* supporting */,
+			);
+			path = PhotyPicker;
+			sourceTree = "<group>";
+		};
+		0CEAE27F28BF18B6004B5037 /* supporting */ = {
+			isa = PBXGroup;
+			children = (
 				0C664C3128851EEC0067F538 /* GoogleService-Info.plist */,
+				0C664C4A288521E70067F538 /* Property List.plist */,
 				0C664C1F2884FEC50067F538 /* Main.storyboard */,
 				0C664C222884FEC70067F538 /* Assets.xcassets */,
 				0C664C242884FEC70067F538 /* LaunchScreen.storyboard */,
-				0C664C272884FEC70067F538 /* Info.plist */,
-				0C664C8728864E580067F538 /* PHAssetCollection.swift */,
-				0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */,
-				0CBF5CE72887DB320092AC40 /* PHAsset.swift */,
-				0C634E0228881DF000A4BE2D /* Constant.swift */,
-				0C634E042888276800A4BE2D /* UIView.swift */,
-				0CBF5CEB288925BC0092AC40 /* ViewModel.swift */,
-				0CEAE25728B5E78B004B5037 /* SelectedView.swift */,
-				0CEAE25928B5E792004B5037 /* SelectingView.swift */,
-				0CEAE25B28B5EC2B004B5037 /* NewPickerViewController.swift */,
+				0C664C1B2884FEC50067F538 /* SceneDelegate.swift */,
+				0C664C192884FEC50067F538 /* AppDelegate.swift */,
 			);
-			path = PhotyPicker;
+			path = supporting;
+			sourceTree = "<group>";
+		};
+		0CEAE28028BF18E2004B5037 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0CBF5CE72887DB320092AC40 /* PHAsset.swift */,
+				0C634E042888276800A4BE2D /* UIView.swift */,
+				0C664C8728864E580067F538 /* PHAssetCollection.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
+		0CEAE28128C031EB004B5037 /* Albums */ = {
+			isa = PBXGroup;
+			children = (
+				0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */,
+				0CEAE27D28BF18B0004B5037 /* AlbumViewModel.swift */,
+				0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */,
+			);
+			path = Albums;
+			sourceTree = "<group>";
+		};
+		0CEAE28228C0320E004B5037 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0C664C1D2884FEC50067F538 /* ViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0CEAE28328C0322F004B5037 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				0C664C2D288501430067F538 /* PickerViewController.swift */,
+				0C664C8328854A320067F538 /* TopCollectionViewCell.swift */,
+				0C664C8528854A3B0067F538 /* BottomCollectionViewCell.swift */,
+				0CBF5CEB288925BC0092AC40 /* PickerViewModel.swift */,
+				0CEAE25728B5E78B004B5037 /* TopCollectionView.swift */,
+				0CEAE25928B5E792004B5037 /* BottomCollectionView.swift */,
+				0CEAE25B28B5EC2B004B5037 /* NewPickerViewController.swift */,
+				0CEAE28428C03383004B5037 /* ImageData.swift */,
+				0CEAE28628C05087004B5037 /* BottomViewModel.swift */,
+			);
+			path = Picker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,18 +354,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CEAE28528C03383004B5037 /* ImageData.swift in Sources */,
+				0CEAE27E28BF18B0004B5037 /* AlbumViewModel.swift in Sources */,
 				0C634E052888276800A4BE2D /* UIView.swift in Sources */,
 				0C664C8428854A320067F538 /* TopCollectionViewCell.swift in Sources */,
-				0CEAE25828B5E78B004B5037 /* SelectedView.swift in Sources */,
+				0CEAE25828B5E78B004B5037 /* TopCollectionView.swift in Sources */,
 				0C664C8628854A3B0067F538 /* BottomCollectionViewCell.swift in Sources */,
+				0CEAE28728C05087004B5037 /* BottomViewModel.swift in Sources */,
 				0C664C1E2884FEC50067F538 /* ViewController.swift in Sources */,
 				0CB6E7DB288678E60011BCA8 /* AlbumCollectionViewCell.swift in Sources */,
 				0CBF5CE62887C8760092AC40 /* AlbumsViewController.swift in Sources */,
-				0CEAE25A28B5E792004B5037 /* SelectingView.swift in Sources */,
-				0CBF5CEC288925BC0092AC40 /* ViewModel.swift in Sources */,
+				0CEAE25A28B5E792004B5037 /* BottomCollectionView.swift in Sources */,
+				0CBF5CEC288925BC0092AC40 /* PickerViewModel.swift in Sources */,
 				0C664C1A2884FEC50067F538 /* AppDelegate.swift in Sources */,
 				0C664C2E288501430067F538 /* PickerViewController.swift in Sources */,
-				0C664C30288501F80067F538 /* pickerView.swift in Sources */,
 				0C664C8828864E580067F538 /* PHAssetCollection.swift in Sources */,
 				0C664C1C2884FEC50067F538 /* SceneDelegate.swift in Sources */,
 				0CBF5CE82887DB320092AC40 /* PHAsset.swift in Sources */,

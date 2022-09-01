@@ -17,7 +17,7 @@ class PickerViewController: UIViewController {
 //    var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
 //    var selectedAsset: [PHAsset] = []
     
-    let viewModel = ViewModel()
+    let viewModel = PickerViewModel()
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -61,16 +61,7 @@ extension PickerViewController: UICollectionViewDataSource {
         } else {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
-            
-//            bottomCell.delegate = self
-//            bottomCell.index = indexPath.item
-//            bottomCell.currentAsset = viewModel.photosFromCollection.object(at: indexPath.item)
-            
-//            if viewModel.likes[indexPath.item] == true {
-//                bottomCell.isTouched = true
-//            } else {
-//                bottomCell.isTouched = false
-//            }
+
             return bottomCell
         }
     }

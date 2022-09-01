@@ -8,6 +8,10 @@
 import UIKit
 import Photos
 
+protocol TopCellDelegate: AnyObject {
+    func didPressDeleteButton(_ cell: TopCollectionViewCell)
+}
+
 class TopCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "TopCollectionViewCell"
@@ -16,6 +20,8 @@ class TopCollectionViewCell: UICollectionViewCell {
     
     var deleteButtonTapped: (TopCollectionViewCell) -> Void = { (sender) in }
     
+    weak var delegate: TopCellDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
@@ -23,7 +29,16 @@ class TopCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func deleteBtnTapped(_ sender: UIButton) {
-        deleteButtonTapped(self)
+//        deleteButtonTapped(self)
+        print("TopCell X버튼 눌림")
+        delegate?.didPressDeleteButton(self)
+    }
+    
+    
+    var currentIndex: Int = 0 {
+        didSet {
+            print("currentIndex: \(currentIndex)")
+        }
     }
     
     func setImage(asset: PHAsset) {
