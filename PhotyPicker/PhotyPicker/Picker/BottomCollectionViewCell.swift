@@ -10,14 +10,12 @@ import Photos
 
 protocol BottomCellDelegate: AnyObject {
     func didPressCheckButton(_ cell: BottomCollectionViewCell)
-
 }
 
 class BottomCollectionViewCell: UICollectionViewCell {
     static let identifier = "BottomCollectionViewCell"
     let photo = UIImageView()
     let checkMark = UIButton()
-    let viewModel = PickerViewModel()
     
     weak var delegate: BottomCellDelegate?
 
@@ -26,30 +24,14 @@ class BottomCollectionViewCell: UICollectionViewCell {
             //print("didSet asset: \(currentAsset)")
         }
     }
-    
 
     var currentIndex: Int = 0 {
-
         didSet {
-            //print("currentIndex: \(currentIndex)")
         }
     }
 
-//    override var isSelected: Bool {
-//        didSet {
-//            if isSelected {
-//                setCheckMark(index: <#T##Int#>)
-//            } else {
-//
-//            }
-//        }
-//    }
-    
     @objc func checkMarkTapped(_ sender: UIButton) {
-//        print("체크 박스가 눌렸슴돠", sender.isSelected)
-//        print("---------",currentAsset, "---------", currentIndex)
         delegate?.didPressCheckButton(self)
-
     }
 
     override init(frame: CGRect) {
@@ -65,23 +47,21 @@ class BottomCollectionViewCell: UICollectionViewCell {
         checkMark.backgroundColor = .lightGray
         checkMark.addTarget(self, action: #selector(checkMarkTapped(_:)), for: .touchUpInside)
     }
-    
-    func resetCheckMark() {
-        checkMark.setTitle("", for: .normal)
-    }
-    
+
     func setCheckMark(index: Int?) {
         if let index = index {
             checkMark.setTitle("\(index)", for: .normal)
+            checkMark.layer.borderColor = UIColor.black.cgColor
+            checkMark.layer.borderWidth = 2
+            checkMark.backgroundColor = .black
+            checkMark.tintColor = .darkGray
         } else {
             checkMark.setTitle("", for: .normal)
+            checkMark.layer.borderColor = UIColor.darkGray.cgColor
+            checkMark.layer.borderWidth = 2
+            checkMark.backgroundColor = .lightGray
+            checkMark.tintColor = .darkGray
         }
-        checkMark.layer.borderColor = UIColor.darkGray.cgColor
-        checkMark.layer.borderWidth = 2
-        checkMark.backgroundColor = .lightGray
-        checkMark.tintColor = .darkGray
-//        checkMark.roundedCorners()
-        
     }
 
     func setConstraints() {
@@ -102,14 +82,12 @@ class BottomCollectionViewCell: UICollectionViewCell {
             checkMark.heightAnchor.constraint(equalTo: checkMark.widthAnchor)
         ])
     }
-    
-    var checkMarkButtonTapped: (BottomCollectionViewCell) -> Void = { (sender) in }
-    
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
 //        checkMark.roundedCorners(with: 25)
         checkMark.setTitle(nil, for: .normal)
+        
         self.photo.image = nil
         photo.contentMode = .scaleAspectFill
         self.photo.clipsToBounds = true

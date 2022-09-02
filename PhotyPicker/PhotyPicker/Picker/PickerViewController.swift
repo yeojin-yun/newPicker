@@ -9,35 +9,33 @@ import UIKit
 import Photos
 
 class PickerViewController: UIViewController {
-    var selectedCollection: PHAssetCollection = PHAssetCollection() {
-        didSet {
-            viewModel.selectedCollection = selectedCollection
-        }
-    }
-//    var photosFromCollection: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
-//    var selectedAsset: [PHAsset] = []
-    
+
     let viewModel = PickerViewModel()
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    var checkSelected: Bool = false
+    lazy var rightBarButton = UIBarButtonItem(title: "\(viewModel.selectedAsset.count) 예약", style: .plain, target: self, action: #selector(rightBarButtonTapped(_:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUI()
         setPhotoAuthorization()
-        DispatchQueue.main.async {
-            self.bottomCollectionView.reloadData()
-        }
+
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
 
     func setPhotoAuthorization() {
         if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized {
             //print("권한 받음")
         }
+    }
+    
+    @objc func rightBarButtonTapped(_ sender: UIBarButtonItem) {
+        // phasset 배열 -> identifier로 만들기
+        let identifierArray = viewModel.selectedAsset.map { $0.localIdentifier }
+        print(identifierArray)
     }
 }
 
@@ -46,7 +44,6 @@ extension PickerViewController: UICollectionViewDataSource {
         if collectionView == topCollectionView {
             return viewModel.selectedAsset.count
         } else {
-            //print(viewModel.photosFromCollection.count)
             return viewModel.photosFromCollection.count
         }
     }
@@ -56,44 +53,57 @@ extension PickerViewController: UICollectionViewDataSource {
             guard let topCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as? TopCollectionViewCell else { fatalError("No Cell") }
             let image = viewModel.selectedAsset[indexPath.item]
             topCell.setImage(asset: image)
-            
+            topCell.currentIndex = indexPath.item
+            topCell.delegate = self
             return topCell
         } else {
             guard let bottomCell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else { fatalError("No Cell") }
             bottomCell.photo.image = viewModel.photosFromCollection.object(at: indexPath.item).getAssetThumbnail(size: bottomCell.photo.frame.size)
-
+            bottomCell.currentAsset = viewModel.photosFromCollection.object(at: indexPath.item)
+            bottomCell.currentIndex = indexPath.item
+            bottomCell.delegate = self
+            bottomCell.setCheckMark(index: viewModel.images[bottomCell.currentIndex].selectedNumber)
             return bottomCell
         }
     }
+}
+
+extension PickerViewController: BottomCellDelegate {
+    func didPressCheckButton(_ cell: BottomCollectionViewCell) {
+
+        if viewModel.images[cell.currentIndex].selectedNumber != nil {
+            viewModel.addImageInBottomCell(at: cell.currentIndex)
+            cell.setCheckMark(index: viewModel.images[cell.currentIndex].selectedNumber)
+            rightBarButton.title = "\(viewModel.selectedAsset.count) 예약"
+        } else {
+            if viewModel.deleteImageInBottomCell(at: cell.currentIndex) {
+                cell.setCheckMark(index: viewModel.selectedAsset.count)
+                rightBarButton.title = "\(viewModel.selectedAsset.count) 예약"
+            } else {
+                addAlert()
+            }
+        }
+        bottomCollectionView.reloadData()
+        topCollectionView.reloadData()
+        
+    }
     
-    func didPressCheckButton(for index: Int, asset: PHAsset) {
-        print("🍎🍎\(index)")
-        print("🍎\(asset)")
-        
-        
-        viewModel.selectedAsset.append(asset)
-        
+    
+    func addAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "", message: "사진은 5장까지 선택할 수 있습니다.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
+        return alert
     }
 }
 
-
-extension PickerViewController: UICollectionViewDelegate  {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == topCollectionView {
-            
-        } else {
-            print("➡️",indexPath, indexPath.item)
-            
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if collectionView == topCollectionView {
-            
-        } else {
-            print("➡️➡️",indexPath, indexPath.item)
-            
-        }
+extension PickerViewController: TopCellDelegate {
+    func didPressDeleteButton(_ cell: TopCollectionViewCell) {
+        viewModel.changeTopAsset(cell)
+        rightBarButton.title = "\(viewModel.selectedAsset.count) 예약"
+        topCollectionView.reloadData()
+        bottomCollectionView.reloadData()
     }
 }
 
@@ -108,7 +118,7 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == topCollectionView {
-            let width = UIScreen.main.bounds.width / 5
+            let width = UIScreen.main.bounds.width / 5.5
             let size = CGSize(width: width, height: width)
             return size
         } else {

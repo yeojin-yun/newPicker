@@ -11,4 +11,12 @@ import Photos
 struct ImageData {
     var image: PHAsset
     var selectedNumber: Int?
+
+}
+
+
+extension ImageData: Equatable {
+    static func == (lhs: ImageData, rhs: ImageData) -> Bool {
+        lhs.image == rhs.image
+    }
 }

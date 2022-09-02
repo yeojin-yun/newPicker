@@ -17,9 +17,7 @@ class TopCollectionViewCell: UICollectionViewCell {
     static let identifier = "TopCollectionViewCell"
     let photo = UIImageView()
     let deleteButton = UIButton()
-    
-    var deleteButtonTapped: (TopCollectionViewCell) -> Void = { (sender) in }
-    
+
     weak var delegate: TopCellDelegate?
     
     override init(frame: CGRect) {
@@ -29,15 +27,13 @@ class TopCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func deleteBtnTapped(_ sender: UIButton) {
-//        deleteButtonTapped(self)
-        print("TopCell X버튼 눌림")
         delegate?.didPressDeleteButton(self)
     }
     
     
     var currentIndex: Int = 0 {
         didSet {
-            print("currentIndex: \(currentIndex)")
+            //print("currentIndex: \(currentIndex)")
         }
     }
     
@@ -59,10 +55,10 @@ class TopCollectionViewCell: UICollectionViewCell {
         }
         
         NSLayoutConstraint.activate([
-            photo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            photo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            photo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            photo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            photo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
+            photo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
+            photo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7),
+            photo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
             
             deleteButton.topAnchor.constraint(equalTo: photo.topAnchor, constant: -8),
             deleteButton.trailingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 8)
@@ -72,7 +68,7 @@ class TopCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.photo.image = nil
-//        self.deleteButton.setImage(nil, for: .normal)
+        self.deleteButton.setTitle("", for: .normal)
     }
     
     override func layoutSubviews() {
