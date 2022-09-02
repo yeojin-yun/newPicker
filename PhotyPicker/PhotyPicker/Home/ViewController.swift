@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseRemoteConfig
 import SwiftUI
+import Photos
 
 class ViewController: UIViewController {
     
@@ -28,6 +29,7 @@ class ViewController: UIViewController {
         "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/5/윤여진/1658732563939/821163bytes.jpg"
     ]
     
+    var testCollectionAsset: PHFetchResult<PHAsset>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +44,11 @@ class ViewController: UIViewController {
     @objc func buttonTapped(_ sender: UIButton) {
         switch sender {
         case button:
-            let nextVC = AlbumsViewController()
+            testFunction()
+            let nextVC = PickerViewController()
             let nav = UINavigationController(rootViewController: nextVC)
-    //        self.navigationController?.pushViewController(nextVC, animated: true)
+            nextVC.title = "Recents"
+            nextVC.viewModel.selectedCollection =
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true)
         case button2:
@@ -59,46 +63,34 @@ class ViewController: UIViewController {
         }
         
     }
-}
-
-extension ViewController {
-    func setRemoteConfig() {
-        remoteConfig = RemoteConfig.remoteConfig()
-        let setting = RemoteConfigSettings()
-        setting.minimumFetchInterval = 1
-        remoteConfig?.configSettings = setting
-        remoteConfig?.setDefaults(fromPlist: "Property List")
-    }
     
-    func getNotice() {
-        guard let remoteConfig = remoteConfig else { return }
-        remoteConfig.fetch { [weak self] status, error in
-            if status == .success {
+//
+//    var normalFetchOption: PHFetchOptions {
+//
+//    }
+    
+    func testFunction() {
+        let timeLimit = Date() - (3600 * 24 * 30)
+        let normalFetchOption = PHFetchOptions()
+        normalFetchOption.predicate = NSPredicate(format: "mediaType = %d AND creationDate > %@ AND NOT ((mediaSubtype & %d) != 0)", PHAssetMediaType.image.rawValue, timeLimit as NSDate, PHAssetMediaSubtype.photoScreenshot.rawValue)
+        normalFetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        normalFetchOption.includeHiddenAssets = false
+        
+        // 앨범 전부 불러보자
+        
+        let fetchCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: .none)
+        fetchCollection.enumerateObjects { collection, _, _ in
+            if collection.hasAssets() && collection.localizedTitle == "Recents" {
                 
-                remoteConfig.activate(completion: nil)
-            } else {
-                print(error)
-            }
-            
-            guard let self = self else { return }
-            if !self.isNoticeHidded(remoteConfig) {
+                self.testCollectionAsset = PHAsset.fetchAssets(in: collection, options: nil)
                 
-                
-                
-                let mainContent = (remoteConfig["mainText"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
-                let subContent = (remoteConfig["subText"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
-                
-                self.content = (main: mainContent, sub: subContent)
-                self.mainLabel.text = self.content?.main
-                self.subLabel.text = self.content?.sub
             }
         }
     }
-    
-    func isNoticeHidded(_ remoteConfig: RemoteConfig) -> Bool {
-        return remoteConfig["isHidden"].boolValue
-    }
+
 }
+
+
 
 extension ViewController {
     func addTarget() {
@@ -147,5 +139,43 @@ extension ViewController {
             button2.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 30),
             button2.widthAnchor.constraint(equalToConstant: 200),
         ])
+    }
+}
+extension ViewController {
+    func setRemoteConfig() {
+        remoteConfig = RemoteConfig.remoteConfig()
+        let setting = RemoteConfigSettings()
+        setting.minimumFetchInterval = 1
+        remoteConfig?.configSettings = setting
+        remoteConfig?.setDefaults(fromPlist: "Property List")
+    }
+    
+    func getNotice() {
+        guard let remoteConfig = remoteConfig else { return }
+        remoteConfig.fetch { [weak self] status, error in
+            if status == .success {
+                
+                remoteConfig.activate(completion: nil)
+            } else {
+                print(error)
+            }
+            
+            guard let self = self else { return }
+            if !self.isNoticeHidded(remoteConfig) {
+                
+                
+                
+                let mainContent = (remoteConfig["mainText"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
+                let subContent = (remoteConfig["subText"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
+                
+                self.content = (main: mainContent, sub: subContent)
+                self.mainLabel.text = self.content?.main
+                self.subLabel.text = self.content?.sub
+            }
+        }
+    }
+    
+    func isNoticeHidded(_ remoteConfig: RemoteConfig) -> Bool {
+        return remoteConfig["isHidden"].boolValue
     }
 }
