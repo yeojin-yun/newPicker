@@ -7,23 +7,34 @@
 
 import UIKit
 import Photos
+import CloudKit
 
 class PickerViewController: UIViewController {
 
-    let viewModel = PickerViewModel()
+    var viewModel = PickerViewModel() {
+        didSet {
+            print("viewModel 값 들어옴")
+        }
+    }
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let tempView = AlbumsCollectionView()
+    var tempAnchor: NSLayoutConstraint?
+    let button = UIButton(type: .custom)
+    var navTitle = ""
     
-    lazy var rightBarButton = UIBarButtonItem(title: "\(viewModel.selectedAsset.count) 예약", style: .plain, target: self, action: #selector(rightBarButtonTapped(_:)))
+    lazy var rightBarButton = UIBarButtonItem(title: "전송", style: .plain, target: self, action: #selector(rightBarButtonTapped(_:)))
+    
+    lazy var leftBarButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(leftBarButtonTapped(_:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUI()
         setPhotoAuthorization()
-
-        self.navigationItem.rightBarButtonItem = rightBarButton
+        view.backgroundColor = .yellow
+        
     }
 
     func setPhotoAuthorization() {
@@ -35,7 +46,10 @@ class PickerViewController: UIViewController {
     @objc func rightBarButtonTapped(_ sender: UIBarButtonItem) {
         // phasset 배열 -> identifier로 만들기
         let identifierArray = viewModel.selectedAsset.map { $0.localIdentifier }
-        print(identifierArray)
+
+    }
+    @objc func leftBarButtonTapped(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true)
     }
 }
 
@@ -133,6 +147,7 @@ extension PickerViewController {
     func setUI() {
         setCollectionView()
         setConstraint()
+        setNavBar()
     }
     
     func setCollectionView() {
@@ -150,12 +165,15 @@ extension PickerViewController {
     }
     
     func setConstraint() {
-        [topCollectionView, bottomCollectionView].forEach {
+        [topCollectionView, bottomCollectionView, tempView].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         let topWidth = UIScreen.main.bounds.width / 5
         let bottomWidth = UIScreen.main.bounds.width / 3
+        
+        tempAnchor = tempView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        tempAnchor?.isActive = true
         
         NSLayoutConstraint.activate([
             topCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -166,7 +184,42 @@ extension PickerViewController {
             bottomCollectionView.topAnchor.constraint(equalTo: topCollectionView.bottomAnchor, constant: 10),
             bottomCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bottomCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            bottomCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            bottomCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            tempView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            tempView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
+    
+    func setNavBar() {
+        self.navigationItem.rightBarButtonItem = rightBarButton
+        rightBarButton.isEnabled = false
+        self.navigationItem.leftBarButtonItem = leftBarButton
+        
+        self.navigationController?.navigationBar.tintColor = .black
+        let container = UIView()
+        container.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
+
+        
+        button.setTitle("앨범▾", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.frame = container.frame
+        button.addTarget(self, action: #selector(navBarTapped(_:)), for: .touchUpInside)
+        container.addSubview(button)
+        navigationItem.titleView = container
+    }
+    
+    @objc func navBarTapped(_ sender: UIButton) {
+        print(#function)
+        button.setTitle("앨범 ▴", for: .normal)
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [.curveEaseIn], animations: {
+            self.tempView.isHidden = false
+            self.tempView.isOpaque = false
+            self.tempAnchor?.constant = UIScreen.main.bounds.height
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
 }
+
+

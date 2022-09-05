@@ -66,6 +66,7 @@
 		0CEAE27E28BF18B0004B5037 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE27D28BF18B0004B5037 /* AlbumViewModel.swift */; };
 		0CEAE28528C03383004B5037 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE28428C03383004B5037 /* ImageData.swift */; };
 		0CEAE28928C1E05E004B5037 /* DummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE28828C1E05E004B5037 /* DummyViewController.swift */; };
+		0CEAE28B28C59D64004B5037 /* AlbumCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAE28A28C59D64004B5037 /* AlbumCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		0CEAE27D28BF18B0004B5037 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 		0CEAE28428C03383004B5037 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		0CEAE28828C1E05E004B5037 /* DummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewController.swift; sourceTree = "<group>"; };
+		0CEAE28A28C59D64004B5037 /* AlbumCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,7 @@
 				0CBF5CE52887C8760092AC40 /* AlbumsViewController.swift */,
 				0CEAE27D28BF18B0004B5037 /* AlbumViewModel.swift */,
 				0CB6E7DA288678E60011BCA8 /* AlbumCollectionViewCell.swift */,
+				0CEAE28A28C59D64004B5037 /* AlbumCollectionView.swift */,
 			);
 			path = Albums;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				0C664C1A2884FEC50067F538 /* AppDelegate.swift in Sources */,
 				0C664C2E288501430067F538 /* PickerViewController.swift in Sources */,
 				0C664C8828864E580067F538 /* PHAssetCollection.swift in Sources */,
+				0CEAE28B28C59D64004B5037 /* AlbumCollectionView.swift in Sources */,
 				0C664C1C2884FEC50067F538 /* SceneDelegate.swift in Sources */,
 				0CBF5CE82887DB320092AC40 /* PHAsset.swift in Sources */,
 				0C634E0328881DF000A4BE2D /* Constant.swift in Sources */,

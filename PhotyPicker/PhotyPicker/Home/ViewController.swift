@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         "https://photypeta1.s3.ap-northeast-2.amazonaws.com/original/0000008/5/윤여진/1658732563939/821163bytes.jpg"
     ]
     
-    var testCollectionAsset: PHFetchResult<PHAsset>?
+    var testCollectionAsset: PHAssetCollection = PHAssetCollection()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,8 +47,8 @@ class ViewController: UIViewController {
             testFunction()
             let nextVC = PickerViewController()
             let nav = UINavigationController(rootViewController: nextVC)
-            nextVC.title = "Recents"
-            nextVC.viewModel.selectedCollection =
+//            nextVC.title = "Recents"
+            nextVC.viewModel.selectedCollection = testCollectionAsset
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true)
         case button2:
@@ -63,11 +63,7 @@ class ViewController: UIViewController {
         }
         
     }
-    
-//
-//    var normalFetchOption: PHFetchOptions {
-//
-//    }
+
     
     func testFunction() {
         let timeLimit = Date() - (3600 * 24 * 30)
@@ -82,7 +78,7 @@ class ViewController: UIViewController {
         fetchCollection.enumerateObjects { collection, _, _ in
             if collection.hasAssets() && collection.localizedTitle == "Recents" {
                 
-                self.testCollectionAsset = PHAsset.fetchAssets(in: collection, options: nil)
+                self.testCollectionAsset = collection
                 
             }
         }
